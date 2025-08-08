@@ -1,0 +1,41 @@
+.intro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: white;
+  margin: 325px 200px; /* don't use margin */
+  padding: 20px;
+  border-radius: 30px;
+}
+
+.intro-image {
+  display: flex;
+  align-items: center;
+
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.intro-text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin-left: 20px;
+}
+
+.intro-header {
+  font-size: 23px;
+  font-weight: bold;
+  color: rgb(33, 33, 33);
+}
+
+.intro-description {
+  margin-top: 10px;
+  font-size: 20px;
+  color: rgb(33, 33, 33);
+  line-height: 1.4;
+}

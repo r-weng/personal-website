@@ -1,0 +1,30 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+
+  height: 60px;
+  background-color: white;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  position: fixed;
+}
+
+.navbar-left,
+.navbar-right {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  font-size: 17px;
+}
+
+.navbar-left {
+  margin-left: 25px;
+}
+
+.navbar-right {
+  margin-right: 25px;
+}
