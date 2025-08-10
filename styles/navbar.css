@@ -5,8 +5,7 @@
   height: 60px;
   background-color: white;
   top: 0;
-  left: 0;
-  right: 0;
+  width: 100%;
 
   position: fixed;
 }
@@ -16,15 +15,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  
   gap: 16px;
-
   font-size: 17px;
 }
 
 .navbar-left {
-  margin-left: 25px;
+  padding-left: 25px;
 }
 
 .navbar-right {
-  margin-right: 25px;
+  padding-right: 25px;
 }

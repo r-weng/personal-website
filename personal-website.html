@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="styles/general.css">
     <link rel="stylesheet" href="styles/navbar.css">
     <link rel="stylesheet" href="styles/intro.css">
+    <link rel="stylesheet" href="styles/section.css">
   
   </head>
   <body>
@@ -17,7 +18,7 @@
       <div class="navbar-left">
         <a href="#about">About</a>
         <a href="#projects">Projects</a>
-        <a href="#projects">Photos</a>
+        <a href="#photos">Photos</a>
       </div>
       <div class="navbar-right">
         <a href="https://github.com/r-weng" target="_blank">
@@ -29,7 +30,7 @@
       </div>
     </div>
 
-    <div class="intro">
+    <div class="intro-container">
       <div>
         <img class="intro-image" src="images/universal-studios.png">
       </div>
@@ -38,32 +39,47 @@
           Rui Weng
         </div>
         <div class="intro-description">
-          Hey! My name is Rui (pronounced "Ray"). I'm a second-year student at the University of Toronto studying computer 
-          science and math. I'm interested in working on meaningful, high-impact products.
+          <i>Hey! My name is Rui (pronounced "Ray"). I'm a developer from Vancouver, Canada
+          who's interested in working on meaningful, high-impact products.</i>
         </div>
       </div>
     </div>
 
-    <p>About</p>
-    <p>
-      I'm a second-year student at the University of Toronto 
-      studying computer science and math. I often work with:
-      <div>
-        - Python
+    <div id="about" class="section-container" style="
+      padding-top: 700px;
+    ">
+      <div class="section-title">
+        About Me
       </div>
-      <div>
-        - JavaScript
+      <div class="section-text">
+        I'm currently a second-year student at the University of Toronto studying computer science 
+        and math. I work with the following languages and technologies:<br>
+        <pre>&#183; Python</pre>
+        <pre>&#183; JavaScript</pre>
+        <pre>&#183; HTML/CSS</pre>
+        <pre>&#183; Java</pre>
+        In my free time, I enjoy learning new things, playing badminton, reading, and cooking/baking.
       </div>
-      <div>
-        - HTML/CSS
-      </div>
-      <div>
-        - Java
-      </div>
-      In my free time, I enjoy playing badminton, reading, and 
-      cooking/baking!
-    </p>
+    </div>
 
+    <div id="projects" class="section-container">
+      <div class="section-title">
+        Projects
+      </div>
+      <div class="section-text">
+        Here are some of the projects I've worked on:
+      </div>
+    </div>
+
+    <div id="photos" class="section-container">
+      <div class="section-title">
+        Photos
+      </div>
+      <div class="section-text">
+        Here are some photos that represent me!
+      </div>
+    </div>
+    
     <script src="personal-website.js"></script>
   </body>
 </html>
