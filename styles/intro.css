@@ -10,6 +10,7 @@
   padding: 20px;
   border-radius: 30px;
   min-width: 680px;
+  z-index: 100;
 }
 
 .intro-image {

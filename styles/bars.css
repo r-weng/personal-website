@@ -1,0 +1,63 @@
+a {
+  text-decoration: none;
+}
+
+a:link, a:visited, a:hover, a:active {
+  color: white;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+  background-color: #333;
+  top: 0;
+  width: 100%;
+  position: fixed;
+  z-index: 200;
+}
+
+.navbar-left,
+.navbar-right {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 17px;
+}
+
+.navbar-left {
+  padding-left: 25px;
+}
+
+.navbar-right {
+  padding-right: 25px;
+}
+
+.media-logo {
+  height: 25px;
+  padding-right: 5px;
+
+  /*i want these logos to follow the same colour theme (both white)*/
+}
+
+.bottom-bar {
+  bottom: 0;
+
+  /*i want this to be flush with the bottom of the screen*/
+
+  text-align: center;
+  height: 100px;
+  background-color: #333;
+  color: white;
+  width: 100%
+}
+
+.bottom-bar-text-container {
+  padding-top: 32px;
+}
+
+
+.bottom-bar-text {
+  margin: 0;
+}
