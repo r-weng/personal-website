@@ -1,0 +1,22 @@
+.photo-container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.photo {
+  margin-top: 20px;
+  border-radius: 30px;
+  height: 290px;
+  width: 290px;
+  object-fit: cover;
+  transition: width 0.5s,
+  opacity 0.15s;
+}
+
+.photo:hover {
+  width: 300px;
+  opacity: 0.9;
+  cursor: pointer;
+}

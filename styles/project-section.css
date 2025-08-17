@@ -8,11 +8,11 @@
   padding: 15px;
   border-radius: 25px;
   z-index: 100;
-  transition: background-color 0.15s;
+  transition: opacity 0.15s;
 }
 
 .project-container:hover {
-  background-color: rgb(230, 230, 230);
+  opacity: 0.9;
   cursor: pointer;
 }
 

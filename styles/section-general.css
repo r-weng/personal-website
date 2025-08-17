@@ -14,3 +14,20 @@
   font-size: 18px;
   line-height: 1.4;
 }
+
+.bulletpoint {
+  display: inline-block;
+  background-color: #333;
+  color: white;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  margin-right: 5px;
+  padding: 8px 15px;
+  border-radius: 20px;
+  transition: padding 0.5s;
+}
+
+.bulletpoint:hover {
+  padding: 10px 17px;
+  cursor: pointer;
+}
