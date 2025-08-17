@@ -2,20 +2,21 @@
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
+  gap: 15px;
 }
 
 .photo {
   margin-top: 20px;
   border-radius: 30px;
-  height: 300px;
-  width: 300px;
+  height: 290px;
+  width: 290px;
   object-fit: cover;
   transition: width 0.5s,
   opacity 0.15s;
 }
 
 .photo:hover {
-  width: 310px;
+  width: 300px;
   opacity: 0.9;
   cursor: pointer;
 }
