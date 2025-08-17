@@ -7,14 +7,15 @@ body {
   color: white;
 }
 
-/*i want this to be flush with the bottom of the screen*/
+/*change to be flush with the bottom of the screen*/
 .bottom-bar {
   bottom: 0;
   text-align: center;
   height: 100px;
   background-color: #333;
   color: white;
-  width: 100%
+  width: 100%;
+  min-width: 500px;
 }
 
 .bottom-bar-text-container {

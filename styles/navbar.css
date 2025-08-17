@@ -28,9 +28,15 @@ a:link, a:visited, a:hover, a:active {
 
 .navbar-left {
   padding-left: 25px;
+  flex-shrink: 0;
+}
+
+.navbar-middle {
+  min-width: 25px;
 }
 
 .navbar-right {
+  flex-shrink: 0;
   padding-right: 25px;
 }
 
@@ -38,5 +44,5 @@ a:link, a:visited, a:hover, a:active {
   height: 25px;
   padding-right: 5px;
 
-  /*i want these logos to follow the same colour theme (both white)*/
+  /*change these logos to follow the same colour scheme (both white)*/
 }
