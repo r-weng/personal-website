@@ -1,2 +1,4 @@
 # personal-website
-My personal website made from scratch using HTML/CSS
+Welcome to my personal website!
+
+This was made from scratch using HTML/CSS.
