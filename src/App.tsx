@@ -48,22 +48,16 @@ const projects: Project[] = [
 
 const experience: Experience[] = [
   {
-    period: '2023 — Present',
-    company: 'Company Name',
-    role: 'Job Title',
-    description: 'Brief description of your role and key responsibilities or accomplishments.',
+    period: 'Feb 2026 — Present',
+    company: 'UofTHacks',
+    role: 'Software Engineer',
+    description: 'Building the official UofTHacks 14 website.',
   },
   {
-    period: '2021 — 2023',
-    company: 'Company Name',
-    role: 'Job Title',
-    description: 'Brief description of your role and key responsibilities or accomplishments.',
-  },
-  {
-    period: '2017 — 2021',
-    company: 'University Name',
-    role: 'B.S. Computer Science',
-    description: 'Any relevant coursework, honors, or activities worth mentioning.',
+    period: 'Sep 2024 — May 2028',
+    company: 'University of Toronto',
+    role: 'B.S. Computer Science and Math',
+    description: 'Currently studying computer science and math at the University of Toronto.',
   },
 ]
 
@@ -142,7 +136,7 @@ function Nav({ theme, onToggleTheme }: NavProps) {
   return (
     <header className="nav-header">
       <nav className="nav-inner">
-        <a href="#about" className="nav-logo">翁睿</a>
+        <a href="/" className="nav-logo">翁睿</a>
 
         <ul className="nav-links">
           <li><a href="#about">About</a></li>
@@ -240,7 +234,11 @@ function About() {
       <h1 className="hero-name" data-reveal data-delay="0.05">Rui Weng</h1>
       <p className="hero-bio" data-reveal data-delay="0.2">
         I'm currently a second-year computer science and math student at the University of Toronto.
-        I enjoy building to solve real-world problems. Feel free to reach out!
+        I enjoy building to solve real-world problems.
+      </p>
+      <p className="hero-bio" data-reveal data-delay="0.2">
+        If I'm not coding, then I'm probably baking, reading, or playing badminton. 
+        I also spend way too much time on Hypixel.
       </p>
       <div className="hero-links" data-reveal data-delay="0.35">
         <a href="mailto:rui.weng@mail.utoronto.ca" className="hero-link" aria-label="Email">
@@ -270,9 +268,7 @@ function Projects() {
       <div className="project-list">
         {projects.map((p, i) => (
           <article key={p.name + i} className="project-item" data-reveal data-delay={i * 0.1}>
-            <div className="project-top">
-              <h3 className="project-name">{p.name}</h3>
-            </div>
+            <h3 className="project-name">{p.name}</h3>
             <p className="project-desc">{p.description}</p>
             <div className="project-bottom">
               <div className="project-tags">
@@ -326,6 +322,34 @@ function Experience() {
   )
 }
 
+function Contact() {
+  const ref = useRef<HTMLElement>(null)
+  useScrollReveal(ref)
+  useScrollOut(ref)
+
+  return (
+    <section ref={ref} id="contact" className="section">
+      <div className="section-header" data-reveal data-delay="0">
+        <h2 className="section-title">Contact</h2>
+      </div>
+      <p className="contact-bio" data-reveal data-delay="0.1">
+        I'm always happy to chat. Feel free to reach out!
+      </p>
+      <div className="hero-links" data-reveal data-delay="0.35">
+        <a href="mailto:rui.weng@mail.utoronto.ca" className="hero-link" aria-label="Email">
+          <EmailIcon />
+        </a>
+        <a href="https://github.com/r-weng" target="_blank" rel="noreferrer" className="hero-link" aria-label="GitHub">
+          <GitHubIcon />
+        </a>
+        <a href="https://www.linkedin.com/in/rui-weng-a52a44264/" target="_blank" rel="noreferrer" className="hero-link" aria-label="LinkedIn">
+          <LinkedInIcon />
+        </a>
+      </div>
+    </section>
+  )
+}
+
 // ── App ────────────────────────────────────────────────────────────────────
 
 export default function App() {
@@ -338,6 +362,7 @@ export default function App() {
         <About />
         <Projects />
         <Experience />
+        <Contact />
       </main>
     </div>
   )
