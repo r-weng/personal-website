@@ -1,0 +1,352 @@
+/* ── Page ── */
+.page {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Nav ── */
+.nav-header {
+  position: sticky;
+  top: 16px;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.nav-inner {
+  pointer-events: all;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 20px;
+  height: 52px;
+  width: calc(100% - 64px);
+  max-width: 680px;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  background: var(--nav-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.nav-logo {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-right: auto;
+  transition: opacity 0.15s;
+}
+
+.nav-logo:hover { opacity: 0.6; }
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.nav-links a {
+  font-size: 15px;
+  color: var(--muted);
+  padding: 6px 12px;
+  border-radius: 9999px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.nav-links a:hover {
+  color: var(--fg);
+  background: var(--card);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 6px;
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+
+.theme-toggle:hover {
+  color: var(--fg);
+  background: var(--card);
+  border-color: var(--muted);
+}
+
+/* ── Main ── */
+.main {
+  flex: 1;
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Sections ── */
+.section {
+  padding: 72px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.section:last-child { border-bottom: none; }
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.section-title {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.section-count {
+  font-size: 11px;
+  color: var(--subtle);
+  font-family: 'Geist Mono Variable', monospace;
+}
+
+/* ── About ── */
+.section-about { padding-top: 80px; }
+
+.hero-name {
+  font-size: clamp(32px, 6vw, 52px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.hero-bio {
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 46ch;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.hero-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.hero-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  transition: color 0.15s;
+}
+
+.hero-link:hover {
+  color: var(--fg);
+}
+
+/* ── Projects ── */
+.project-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-item {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.project-item:first-child { border-top: 1px solid var(--border); }
+
+.project-top {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.project-name {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  transition: color 0.2s, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.project-item:hover .project-name {
+  transform: translateX(4px);
+  color: var(--muted);
+}
+
+.project-award {
+  font-size: 11px;
+  font-family: 'Geist Mono Variable', monospace;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  padding: 2px 8px;
+}
+
+.project-desc {
+  font-size: 13px;
+  color: var(--muted);
+  max-width: 52ch;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.project-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.project-tech {
+  font-size: 12px;
+  font-family: 'Geist Mono Variable', monospace;
+  color: var(--subtle);
+}
+
+.project-links {
+  display: flex;
+  gap: 16px;
+}
+
+.project-link {
+  font-size: 12px;
+  color: var(--muted);
+  transition: color 0.15s;
+}
+
+.project-link:hover { color: var(--fg); }
+
+/* ── Experience ── */
+.exp-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.exp-item {
+  display: grid;
+  grid-template-columns: 152px 1fr;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.exp-item:first-child { border-top: 1px solid var(--border); }
+
+.exp-left {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-top: 1px;
+}
+
+.exp-period {
+  font-size: 12px;
+  font-family: 'Geist Mono Variable', monospace;
+  color: var(--subtle);
+}
+
+.exp-company {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.exp-role {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin-bottom: 5px;
+}
+
+.exp-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 44ch;
+}
+
+/* ── Footer ── */
+.footer {
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--subtle);
+  border-top: 1px solid var(--border);
+  font-family: 'Geist Mono Variable', monospace;
+}
+
+.footer a {
+  color: var(--subtle);
+  transition: color 0.15s;
+}
+
+.footer a:hover { color: var(--fg); }
+
+/* ── Entrance animation ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeUp 0.6s ease-out forwards;
+  animation-delay: var(--delay, 0s);
+}
+
+/* ── Responsive ── */
+@media (max-width: 580px) {
+  .exp-item {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .exp-left {
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .project-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in { animation: none; opacity: 1; }
+  .project-item:hover .project-name { transform: none; }
+}
