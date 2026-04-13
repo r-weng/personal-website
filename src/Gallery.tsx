@@ -22,7 +22,12 @@ export default function Gallery() {
         <div className="gallery-grid">
           {photos.map((src, i) => (
             <div key={i} className="gallery-item" data-reveal data-delay={i * 0.05}>
-              <img src={src} alt="" className="gallery-img" />
+              <img
+                src={src}
+                alt=""
+                className="gallery-img"
+                onLoad={e => (e.currentTarget as HTMLImageElement).classList.add('loaded')}
+              />
             </div>
           ))}
         </div>
