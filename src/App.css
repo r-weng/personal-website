@@ -184,10 +184,6 @@
 }
 
 .project-top {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
   margin-bottom: 10px;
 }
 
@@ -195,17 +191,6 @@
   font-size: 20px;
   font-weight: 600;
   letter-spacing: -0.02em;
-}
-
-.project-award {
-  font-size: 11px;
-  font-family: 'Geist Mono Variable', monospace;
-  letter-spacing: 0.03em;
-  color: var(--muted);
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 9999px;
-  padding: 3px 10px;
 }
 
 .project-desc {
@@ -246,9 +231,16 @@
 }
 
 .project-link {
+  display: flex;
+  align-items: center;
   font-size: 13px;
   color: var(--muted);
   transition: color 0.15s;
+}
+
+.project-link svg {
+  width: 24px;
+  height: 24px;
 }
 
 .project-link:hover { color: var(--fg); }

@@ -8,7 +8,6 @@ interface Project {
   description: string
   tech: string[]
   links: { label: string; url: string; external?: boolean }[]
-  award?: string
 }
 
 interface Experience {
@@ -22,29 +21,27 @@ interface Experience {
 
 const projects: Project[] = [
   {
-    name: 'Project Name',
-    description: 'One or two sentences describing what this project does and why it matters.',
-    tech: ['TypeScript', 'React', 'Node.js'],
+    name: 'The Mind Museum',
+    description: 'A full-stack, AI-powered 3D museum that transforms PDFs into interactive virtual exhibits, enabling immersive, spatial learning through LLM-generated content and real-time user exploration.',
+    tech: ['Next.js', 'Three.js', 'Flask', 'ChromaDB', 'Sentence Transformers', 'LLM APIs'],
     links: [
-      { label: 'GitHub ↗', url: '#', external: true },
-      { label: 'Live ↗', url: '#', external: true },
+      { label: 'GitHub', url: '#', external: true },
     ],
   },
   {
-    name: 'Project Name',
-    award: '1st Place · Some Hackathon',
-    description: 'One or two sentences describing what this project does and why it matters.',
-    tech: ['Python', 'FastAPI', 'PostgreSQL'],
+    name: 'Rostr',
+    description: 'A full-stack fantasy baseball decision-support platform using a custom grading algorithm to evaluate trades, compute pitcher performance scores, and generate optimized pitching order recommendations.',
+    tech: ['React', 'Node.js', 'TypeScript', 'Tailwind CSS', 'Docker', 'PostgreSQL'],
     links: [
-      { label: 'GitHub ↗', url: '#', external: true },
+      { label: 'GitHub', url: '#', external: true },
     ],
   },
   {
-    name: 'Project Name',
-    description: 'One or two sentences describing what this project does and why it matters.',
-    tech: ['Go', 'Redis'],
+    name: 'YouLingo',
+    description: 'A full-stack web application that enables users to learn languages through personalized YouTube content.',
+    tech: ['React', 'Node.js', 'Flask', 'Google Cloud Firestore', 'Auth0'],
     links: [
-      { label: 'GitHub ↗', url: '#', external: true },
+      { label: 'GitHub', url: '#', external: true },
     ],
   },
 ]
@@ -275,7 +272,6 @@ function Projects() {
           <article key={p.name + i} className="project-item" data-reveal data-delay={i * 0.1}>
             <div className="project-top">
               <h3 className="project-name">{p.name}</h3>
-              {p.award && <span className="project-award">{p.award}</span>}
             </div>
             <p className="project-desc">{p.description}</p>
             <div className="project-bottom">
@@ -290,8 +286,9 @@ function Projects() {
                     target={l.external ? '_blank' : undefined}
                     rel={l.external ? 'noreferrer' : undefined}
                     className="project-link"
+                    aria-label={l.label}
                   >
-                    {l.label}
+                    {l.label.toLowerCase().includes('github') ? <GitHubIcon /> : l.label}
                   </a>
                 ))}
               </div>
