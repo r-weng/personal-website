@@ -1,6 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect, type RefObject } from 'react'
 
-export function useScrollOut(ref: React.RefObject<HTMLElement | null>) {
+export function useScrollOut(ref: RefObject<HTMLElement | null>) {
   useEffect(() => {
     const el = ref.current
     if (!el) return
@@ -31,7 +31,7 @@ export function useScrollOut(ref: React.RefObject<HTMLElement | null>) {
   }, [])
 }
 
-export function useScrollReveal(ref: React.RefObject<HTMLElement | null>) {
+export function useScrollReveal(ref: RefObject<HTMLElement | null>) {
   useEffect(() => {
     const container = ref.current
     if (!container) return

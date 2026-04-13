@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import './Gallery.css'
 import { useScrollReveal } from './hooks'
 
@@ -8,20 +8,7 @@ const photos = Object.values(
 
 export default function Gallery() {
   const ref = useRef<HTMLElement>(null)
-  const [lightbox, setLightbox] = useState<string | null>(null)
   useScrollReveal(ref)
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') { setLightbox(null); return }
-      if (!lightbox) return
-      const idx = photos.indexOf(lightbox)
-      if (e.key === 'ArrowRight') setLightbox(photos[(idx + 1) % photos.length])
-      if (e.key === 'ArrowLeft') setLightbox(photos[(idx - 1 + photos.length) % photos.length])
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [lightbox])
 
   return (
     <main ref={ref} className="main gallery-page">
@@ -34,21 +21,10 @@ export default function Gallery() {
       ) : (
         <div className="gallery-grid">
           {photos.map((src, i) => (
-            <div key={i} className="gallery-item" data-reveal data-delay={i * 0.05} onClick={() => setLightbox(src)}>
+            <div key={i} className="gallery-item" data-reveal data-delay={i * 0.05}>
               <img src={src} alt="" className="gallery-img" />
             </div>
           ))}
-        </div>
-      )}
-
-      {lightbox && (
-        <div className="lightbox" onClick={() => setLightbox(null)}>
-          <img
-            src={lightbox}
-            alt=""
-            className="lightbox-img"
-            onClick={e => e.stopPropagation()}
-          />
         </div>
       )}
     </main>
