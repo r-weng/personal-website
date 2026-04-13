@@ -192,7 +192,7 @@ function About() {
       </p>
       <p className="hero-bio" data-reveal data-delay="0.275">
         If I'm not coding, then I'm probably baking, reading, or playing badminton.
-        I also spend way too much time on Hypixel.
+        I also spend way too much time on Hypixel...
       </p>
       <div className="hero-links" data-reveal data-delay="0.35">
         <a href="mailto:rui.weng@mail.utoronto.ca" className="hero-link" aria-label="Email">
