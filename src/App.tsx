@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Routes, Route, Link, useLocation } from 'react-router-dom'
+import { Analytics } from '@vercel/analytics/react'
 import './App.css'
 import Gallery from './Gallery'
 import { useScrollOut, useScrollReveal } from './hooks'
@@ -336,6 +337,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/gallery" element={<Gallery />} />
       </Routes>
+      <Analytics />
     </div>
   )
 }
