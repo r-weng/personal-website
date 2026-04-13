@@ -28,7 +28,7 @@ const projects: Project[] = [
     description: 'A full-stack, AI-powered 3D museum that transforms PDFs into interactive virtual exhibits, enabling immersive, spatial learning through LLM-generated content and real-time user exploration.',
     tech: ['Next.js', 'Three.js', 'Flask', 'ChromaDB', 'Sentence Transformers', 'LLM APIs'],
     links: [
-      { label: 'GitHub', url: '#', external: true },
+      { label: 'GitHub', url: 'https://github.com/BryanYeeee/TheMindMuseum', external: true },
     ],
   },
   {
@@ -36,15 +36,15 @@ const projects: Project[] = [
     description: 'A full-stack fantasy baseball decision-support platform using a custom grading algorithm to evaluate trades, compute pitcher performance scores, and generate optimized pitching order recommendations.',
     tech: ['React', 'Node.js', 'TypeScript', 'Tailwind CSS', 'Docker', 'PostgreSQL'],
     links: [
-      { label: 'GitHub', url: '#', external: true },
+      { label: 'GitHub', url: 'https://github.com/rostr-ftl2025/rostr', external: true },
     ],
   },
   {
-    name: 'YouLingo',
+    name: 'YouLingo (now Mora)',
     description: 'A full-stack web application that enables users to learn languages through personalized YouTube content.',
     tech: ['React', 'Node.js', 'Flask', 'Google Cloud Firestore', 'Auth0'],
     links: [
-      { label: 'GitHub', url: '#', external: true },
+      { label: 'GitHub', url: 'https://github.com/Cindyzzz616/Mora', external: true },
     ],
   },
 ]
