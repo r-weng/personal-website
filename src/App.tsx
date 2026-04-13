@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
 // ── Types ──────────────────────────────────────────────────────────────────
@@ -169,15 +169,83 @@ function Nav({ theme, onToggleTheme }: NavProps) {
 
 // ── Sections ───────────────────────────────────────────────────────────────
 
+function useScrollOut(ref: React.RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    const handleScroll = () => {
+      const rect = el.getBoundingClientRect()
+      const vh = window.innerHeight
+
+      if (rect.top >= 0 && rect.top <= vh) {
+        el.style.opacity = '1'
+        el.style.transform = 'none'
+        return
+      }
+
+      if (rect.top < 0) {
+        // scrolled past upward — exit to top
+        const progress = Math.min(1, -rect.top / (vh * 1.2))
+        el.style.opacity = String(Math.max(0, 1 - progress * 1.5))
+        el.style.transform = `translateY(-${progress * 30}vh)`
+      } else {
+        // below viewport — exit to bottom
+        const progress = Math.min(1, (rect.top - vh) / (vh * 1.2))
+        el.style.opacity = String(Math.max(0, 1 - progress * 1.5))
+        el.style.transform = `translateY(${progress * 30}vh)`
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+}
+
+function useScrollReveal(ref: React.RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    const container = ref.current
+    if (!container) return
+    const items = Array.from(container.querySelectorAll<HTMLElement>('[data-reveal]'))
+
+    const reveal = () => {
+      items.forEach((el) => {
+        el.style.transitionDelay = `${el.dataset.delay ?? '0'}s`
+        el.classList.add('revealed')
+      })
+    }
+
+    const hide = () => {
+      items.forEach((el) => {
+        el.style.transitionDuration = '0s'
+        el.classList.remove('revealed')
+        requestAnimationFrame(() => { el.style.transitionDuration = '' })
+      })
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => { entry.isIntersecting ? reveal() : hide() },
+      { threshold: 0.1 }
+    )
+
+    observer.observe(container)
+    return () => observer.disconnect()
+  }, [ref])
+}
+
 function About() {
+  const ref = useRef<HTMLElement>(null)
+  useScrollReveal(ref)
+  useScrollOut(ref)
+
   return (
-    <section id="about" className="section section-about fade-in" style={{ '--delay': '0s' } as React.CSSProperties}>
-      <h1 className="hero-name">Rui Weng</h1>
-      <p className="hero-bio">
-        I'm currently a second-year computer science and math student at the University of Toronto. 
+    <section ref={ref} id="about" className="section section-about">
+      <h1 className="hero-name" data-reveal data-delay="0.05">Rui Weng</h1>
+      <p className="hero-bio" data-reveal data-delay="0.2">
+        I'm currently a second-year computer science and math student at the University of Toronto.
         I enjoy building to solve real-world problems. Feel free to reach out!
       </p>
-      <div className="hero-links">
+      <div className="hero-links" data-reveal data-delay="0.35">
         <a href="mailto:rui.weng@mail.utoronto.ca" className="hero-link" aria-label="Email">
           <EmailIcon />
         </a>
@@ -193,22 +261,27 @@ function About() {
 }
 
 function Projects() {
+  const ref = useRef<HTMLElement>(null)
+  useScrollReveal(ref)
+  useScrollOut(ref)
+
   return (
-    <section id="projects" className="section fade-in" style={{ '--delay': '0.1s' } as React.CSSProperties}>
-      <div className="section-header">
+    <section ref={ref} id="projects" className="section">
+      <div className="section-header" data-reveal data-delay="0">
         <h2 className="section-title">Projects</h2>
-        <span className="section-count">{projects.length} projects</span>
       </div>
       <div className="project-list">
         {projects.map((p, i) => (
-          <article key={p.name + i} className="project-item">
+          <article key={p.name + i} className="project-item" data-reveal data-delay={i * 0.1}>
             <div className="project-top">
               <h3 className="project-name">{p.name}</h3>
               {p.award && <span className="project-award">{p.award}</span>}
             </div>
             <p className="project-desc">{p.description}</p>
             <div className="project-bottom">
-              <span className="project-tech">{p.tech.join(' · ')}</span>
+              <div className="project-tags">
+                {p.tech.map((t) => <span key={t} className="project-tag">{t}</span>)}
+              </div>
               <div className="project-links">
                 {p.links.map((l) => (
                   <a
@@ -231,35 +304,28 @@ function Projects() {
 }
 
 function Experience() {
+  const ref = useRef<HTMLElement>(null)
+  useScrollReveal(ref)
+  useScrollOut(ref)
+
   return (
-    <section id="experience" className="section fade-in" style={{ '--delay': '0.2s' } as React.CSSProperties}>
-      <div className="section-header">
+    <section ref={ref} id="experience" className="section">
+      <div className="section-header" data-reveal data-delay="0">
         <h2 className="section-title">Experience</h2>
       </div>
       <div className="exp-list">
         {experience.map((e, i) => (
-          <article key={e.company + i} className="exp-item">
-            <div className="exp-left">
-              <span className="exp-period">{e.period}</span>
-              <span className="exp-company">{e.company}</span>
+          <article key={e.company + i} className="exp-item" data-reveal data-delay={i * 0.1}>
+            <span className="exp-period">{e.period}</span>
+            <div className="exp-header">
+              <h3 className="exp-company">{e.company}</h3>
+              <span className="exp-role">{e.role}</span>
             </div>
-            <div className="exp-right">
-              <h3 className="exp-role">{e.role}</h3>
-              <p className="exp-desc">{e.description}</p>
-            </div>
+            <p className="exp-desc">{e.description}</p>
           </article>
         ))}
       </div>
     </section>
-  )
-}
-
-function Footer() {
-  return (
-    <footer className="footer fade-in" style={{ '--delay': '0.3s' } as React.CSSProperties}>
-      <span></span>
-      <span>Stay hungry, stay foolish.</span>
-    </footer>
   )
 }
 
@@ -276,7 +342,6 @@ export default function App() {
         <Projects />
         <Experience />
       </main>
-      <Footer />
     </div>
   )
 }

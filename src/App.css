@@ -101,35 +101,36 @@
 
 /* ── Sections ── */
 .section {
-  padding: 72px 0;
-  border-bottom: 1px solid var(--border);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 0;
 }
 
-.section:last-child { border-bottom: none; }
-
 .section-header {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  margin-bottom: 32px;
+  margin-bottom: 48px;
 }
 
 .section-title {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.section-count {
-  font-size: 11px;
-  color: var(--subtle);
-  font-family: 'Geist Mono Variable', monospace;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--fg);
 }
 
 /* ── About ── */
-.section-about { padding-top: 80px; }
+.section-about {
+  height: calc(100svh - 68px);
+  min-height: unset;
+  padding: 0;
+}
+
+.section-about,
+#projects,
+#experience {
+  will-change: transform, opacity;
+}
 
 .hero-name {
   font-size: clamp(32px, 6vw, 52px);
@@ -161,41 +162,39 @@
   transition: color 0.15s;
 }
 
-.hero-link:hover {
-  color: var(--fg);
+.hero-link:hover { color: var(--fg); }
+
+/* ── Scroll reveal ── */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+[data-reveal].revealed {
+  opacity: 1;
+  transform: none;
 }
 
 /* ── Projects ── */
 .project-list {
   display: flex;
   flex-direction: column;
+  gap: 48px;
 }
-
-.project-item {
-  padding: 20px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.project-item:first-child { border-top: 1px solid var(--border); }
 
 .project-top {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 6px;
+  gap: 12px;
+  margin-bottom: 10px;
 }
 
 .project-name {
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  transition: color 0.2s, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.project-item:hover .project-name {
-  transform: translateX(4px);
-  color: var(--muted);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 .project-award {
@@ -206,28 +205,39 @@
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 9999px;
-  padding: 2px 8px;
+  padding: 3px 10px;
 }
 
 .project-desc {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--muted);
   max-width: 52ch;
-  line-height: 1.6;
-  margin-bottom: 12px;
+  line-height: 1.7;
+  margin-bottom: 16px;
 }
 
 .project-bottom {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
-.project-tech {
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
+}
+
+.project-tag {
   font-size: 12px;
   font-family: 'Geist Mono Variable', monospace;
-  color: var(--subtle);
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  padding: 3px 10px;
 }
 
 .project-links {
@@ -236,7 +246,7 @@
 }
 
 .project-link {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
   transition: color 0.15s;
 }
@@ -247,106 +257,52 @@
 .exp-list {
   display: flex;
   flex-direction: column;
-}
-
-.exp-item {
-  display: grid;
-  grid-template-columns: 152px 1fr;
-  gap: 16px;
-  padding: 20px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.exp-item:first-child { border-top: 1px solid var(--border); }
-
-.exp-left {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding-top: 1px;
+  gap: 40px;
 }
 
 .exp-period {
+  display: block;
   font-size: 12px;
   font-family: 'Geist Mono Variable', monospace;
   color: var(--subtle);
+  margin-bottom: 6px;
+}
+
+.exp-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
 }
 
 .exp-company {
-  font-size: 12px;
-  color: var(--muted);
-  font-weight: 500;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 .exp-role {
   font-size: 14px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  margin-bottom: 5px;
+  color: var(--muted);
 }
 
 .exp-desc {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--muted);
-  line-height: 1.6;
-  max-width: 44ch;
-}
-
-/* ── Footer ── */
-.footer {
-  max-width: 760px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  color: var(--subtle);
-  border-top: 1px solid var(--border);
-  font-family: 'Geist Mono Variable', monospace;
-}
-
-.footer a {
-  color: var(--subtle);
-  transition: color 0.15s;
-}
-
-.footer a:hover { color: var(--fg); }
-
-/* ── Entrance animation ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.fade-in {
-  opacity: 0;
-  animation: fadeUp 0.6s ease-out forwards;
-  animation-delay: var(--delay, 0s);
+  line-height: 1.7;
+  max-width: 52ch;
 }
 
 /* ── Responsive ── */
 @media (max-width: 580px) {
-  .exp-item {
-    grid-template-columns: 1fr;
-    gap: 4px;
-  }
-
-  .exp-left {
-    flex-direction: row;
-    gap: 8px;
-    align-items: center;
-  }
-
   .project-bottom {
     flex-direction: column;
     align-items: flex-start;
-    gap: 6px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .fade-in { animation: none; opacity: 1; }
-  .project-item:hover .project-name { transform: none; }
+  [data-reveal] { transition: none; }
+  .section-about, #projects, #experience { will-change: auto; }
 }
