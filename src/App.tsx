@@ -160,7 +160,7 @@ function Nav({ theme, onToggleTheme }: NavProps) {
         </ul>
 
         <div className="nav-actions">
-          <Link to="/gallery" className="theme-toggle" aria-label="Gallery">
+          <Link to="/gallery" className="theme-toggle" aria-label="Gallery" onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}>
             <CameraIcon />
           </Link>
           <button
@@ -221,7 +221,7 @@ function Projects() {
       </div>
       <div className="project-list">
         {projects.map((p, i) => (
-          <article key={p.name + i} className="project-item" data-reveal data-delay={i * 0.1}>
+          <article key={p.name} className="project-item" data-reveal data-delay={i * 0.1}>
             <h3 className="project-name">{p.name}</h3>
             <p className="project-desc">{p.description}</p>
             <div className="project-bottom">
@@ -262,7 +262,7 @@ function Experience() {
       </div>
       <div className="exp-list">
         {experience.map((e, i) => (
-          <article key={e.company + i} className="exp-item" data-reveal data-delay={i * 0.1}>
+          <article key={e.company} className="exp-item" data-reveal data-delay={i * 0.1}>
             <span className="exp-period">{e.period}</span>
             <div className="exp-header">
               <h3 className="exp-company">{e.company}</h3>
@@ -307,6 +307,15 @@ function Contact() {
 // ── App ────────────────────────────────────────────────────────────────────
 
 function Home() {
+  useEffect(() => {
+    const hash = window.location.hash
+    if (!hash) return
+    requestAnimationFrame(() => {
+      const el = document.querySelector(hash)
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    })
+  }, [])
+
   return (
     <main className="main">
       <About />

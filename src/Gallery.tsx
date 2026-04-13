@@ -26,7 +26,7 @@ export default function Gallery() {
                 src={src}
                 alt=""
                 className="gallery-img"
-                onLoad={e => (e.currentTarget as HTMLImageElement).classList.add('loaded')}
+                onLoad={e => e.currentTarget.classList.add('loaded')}
               />
             </div>
           ))}
