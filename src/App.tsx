@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
+import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import './App.css'
+import Gallery from './Gallery'
+import { useScrollOut, useScrollReveal } from './hooks'
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -125,6 +128,15 @@ function MoonIcon() {
   )
 }
 
+function CameraIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z" />
+      <circle cx="12" cy="13" r="3" />
+    </svg>
+  )
+}
+
 // ── Nav ────────────────────────────────────────────────────────────────────
 
 interface NavProps {
@@ -133,18 +145,24 @@ interface NavProps {
 }
 
 function Nav({ theme, onToggleTheme }: NavProps) {
+  const { pathname } = useLocation()
+  const onGallery = pathname === '/gallery'
+
   return (
     <header className="nav-header">
       <nav className="nav-inner">
         <a href="/" className="nav-logo">翁睿</a>
 
         <ul className="nav-links">
-          <li><a href="#about">About</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#experience">Experience</a></li>
+          <li><a href={onGallery ? '/#about' : '#about'}>About</a></li>
+          <li><a href={onGallery ? '/#projects' : '#projects'}>Projects</a></li>
+          <li><a href={onGallery ? '/#experience' : '#experience'}>Experience</a></li>
         </ul>
 
         <div className="nav-actions">
+          <Link to="/gallery" className="theme-toggle" aria-label="Gallery">
+            <CameraIcon />
+          </Link>
           <button
             className="theme-toggle"
             onClick={onToggleTheme}
@@ -160,70 +178,6 @@ function Nav({ theme, onToggleTheme }: NavProps) {
 
 // ── Sections ───────────────────────────────────────────────────────────────
 
-function useScrollOut(ref: React.RefObject<HTMLElement | null>) {
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-
-    const handleScroll = () => {
-      const rect = el.getBoundingClientRect()
-      const vh = window.innerHeight
-
-      if (rect.top >= 0 && rect.top <= vh) {
-        el.style.opacity = '1'
-        el.style.transform = 'none'
-        return
-      }
-
-      if (rect.top < 0) {
-        // scrolled past upward — exit to top
-        const progress = Math.min(1, -rect.top / (vh * 1.2))
-        el.style.opacity = String(Math.max(0, 1 - progress * 1.5))
-        el.style.transform = `translateY(-${progress * 30}vh)`
-      } else {
-        // below viewport — exit to bottom
-        const progress = Math.min(1, (rect.top - vh) / (vh * 1.2))
-        el.style.opacity = String(Math.max(0, 1 - progress * 1.5))
-        el.style.transform = `translateY(${progress * 30}vh)`
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-}
-
-function useScrollReveal(ref: React.RefObject<HTMLElement | null>) {
-  useEffect(() => {
-    const container = ref.current
-    if (!container) return
-    const items = Array.from(container.querySelectorAll<HTMLElement>('[data-reveal]'))
-
-    const reveal = () => {
-      items.forEach((el) => {
-        el.style.transitionDelay = `${el.dataset.delay ?? '0'}s`
-        el.classList.add('revealed')
-      })
-    }
-
-    const hide = () => {
-      items.forEach((el) => {
-        el.style.transitionDuration = '0s'
-        el.classList.remove('revealed')
-        requestAnimationFrame(() => { el.style.transitionDuration = '' })
-      })
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => { entry.isIntersecting ? reveal() : hide() },
-      { threshold: 0.1 }
-    )
-
-    observer.observe(container)
-    return () => observer.disconnect()
-  }, [ref])
-}
-
 function About() {
   const ref = useRef<HTMLElement>(null)
   useScrollReveal(ref)
@@ -236,8 +190,8 @@ function About() {
         I'm currently a second-year computer science and math student at the University of Toronto.
         I enjoy building to solve real-world problems.
       </p>
-      <p className="hero-bio" data-reveal data-delay="0.2">
-        If I'm not coding, then I'm probably baking, reading, or playing badminton. 
+      <p className="hero-bio" data-reveal data-delay="0.275">
+        If I'm not coding, then I'm probably baking, reading, or playing badminton.
         I also spend way too much time on Hypixel.
       </p>
       <div className="hero-links" data-reveal data-delay="0.35">
@@ -332,7 +286,7 @@ function Contact() {
       <div className="section-header" data-reveal data-delay="0">
         <h2 className="section-title">Contact</h2>
       </div>
-      <p className="contact-bio" data-reveal data-delay="0.1">
+      <p className="hero-bio" data-reveal data-delay="0.1">
         I'm always happy to chat. Feel free to reach out!
       </p>
       <div className="hero-links" data-reveal data-delay="0.35">
@@ -352,18 +306,27 @@ function Contact() {
 
 // ── App ────────────────────────────────────────────────────────────────────
 
+function Home() {
+  return (
+    <main className="main">
+      <About />
+      <Projects />
+      <Experience />
+      <Contact />
+    </main>
+  )
+}
+
 export default function App() {
   const { theme, toggle } = useTheme()
 
   return (
     <div className="page">
       <Nav theme={theme} onToggleTheme={toggle} />
-      <main className="main">
-        <About />
-        <Projects />
-        <Experience />
-        <Contact />
-      </main>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/gallery" element={<Gallery />} />
+      </Routes>
     </div>
   )
 }
