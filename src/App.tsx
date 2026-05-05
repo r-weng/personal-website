@@ -52,6 +52,18 @@ const projects: Project[] = [
 
 const experience: Experience[] = [
   {
+    period: 'May 2026 — Present',
+    company: 'Acceleration Consortium',
+    role: 'Research Assistant',
+    description: 'Building agentic AI systems for SDL6, the self-driving lab for human organ mimicry.',
+  },
+  {
+    period: 'May 2026 — Present',
+    company: 'Department of Computer Science, University of Toronto',
+    role: 'Software Developer',
+    description: 'Designed and maintained Courseography, an interactive course planning tool used by 3900+ students.',
+  },
+  {
     period: 'Feb 2026 — Present',
     company: 'UofTHacks',
     role: 'Software Engineer',
