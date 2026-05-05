@@ -200,12 +200,11 @@ function About() {
     <section ref={ref} id="about" className="section section-about">
       <h1 className="hero-name" data-reveal data-delay="0.05">Rui Weng</h1>
       <p className="hero-bio" data-reveal data-delay="0.2">
-        I'm currently a second-year computer science and math student at the University of Toronto.
+        I'm currently a third-year computer science and math student at the University of Toronto.
         I enjoy building to solve real-world problems.
       </p>
       <p className="hero-bio" data-reveal data-delay="0.275">
         If I'm not coding, then I'm probably baking, reading, or playing badminton.
-        I also spend way too much time on Hypixel...
       </p>
       <div className="hero-links" data-reveal data-delay="0.35">
         <a href="mailto:rui.weng@mail.utoronto.ca" className="hero-link" aria-label="Email">
