@@ -55,13 +55,13 @@ const experience: Experience[] = [
     period: 'May 2026 — Present',
     company: 'Acceleration Consortium',
     role: 'Research Assistant',
-    description: 'Building agentic AI systems for SDL6, the self-driving lab for human organ mimicry.',
+    description: 'Building agentic AI systems for SDL6, the self-driving lab for human organ mimicry. Supervised by Dr. Ilya Yakavets.',
   },
   {
     period: 'May 2026 — Present',
     company: 'Department of Computer Science, University of Toronto',
     role: 'Software Developer',
-    description: 'Designing and maintaining Courseography, an interactive course planning tool used by 3900+ students.',
+    description: 'Designing and maintaining Courseography, an interactive course planning and prerequisite visualization tool used by 3900+ students. Supervised by Professor David Liu.',
   },
   {
     period: 'Feb 2026 — Present',
