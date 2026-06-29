@@ -55,7 +55,7 @@ const experience: Experience[] = [
     period: 'May 2026 — Present',
     company: 'Acceleration Consortium',
     role: 'Research Assistant',
-    description: 'Building agentic AI systems for SDL6, the self-driving lab for human organ mimicry. Supervised by Dr. Ilya Yakavets.',
+    description: 'Building an agentic AI system to automate research workflows and accelerate experiment execution in SDL6, the self-driving lab for human organ mimicry. Supervised by Dr. Ilya Yakavets.',
   },
   {
     period: 'May 2026 — Present',
