@@ -189,8 +189,8 @@ const RUI: Cell[] = shift(18, 8.5, [
   [46, 22, 4, 1, 'top'],           // shoulders
   [45.75, 23, 4.5, 1, 'top'],      // chest (widest)
   [46.25, 24, 3.5, 0.5, 'top'],    // hem tapering in
-  [45.5, 22.5, 0.5, 3, 'skin'],    // left arm
-  [50, 22.5, 0.5, 3, 'skin'],      // right arm
+  [45.5, 22.5, 0.5, 2.5, 'skin'],  // left arm
+  [50, 22.5, 0.5, 2.5, 'skin'],    // right arm
   [47.5, 21.5, 1, 0.5, 'skin'],    // neck
   [46.5, 19, 3, 2.5, 'hair'],      // head
   [46, 21, 4, 0.5, 'hair'],        // hair flare at the nape
@@ -306,7 +306,7 @@ interface BedroomSceneProps {
   onOpenSection: (section: SectionId) => void
 }
 
-const DEFAULT_CAPTION = 'Click on objects around my room to learn about me!'
+const DEFAULT_CAPTION = 'Explore my room ▸ click something!'
 
 export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: BedroomSceneProps) {
   const navigate = useNavigate()
@@ -334,10 +334,10 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
   const checkWeather = async () => {
     sound.blip()
     if (weather) {
-      onCaption(`[Window] It's ${weather} in Toronto right now.`)
+      onCaption(`WINDOW — Toronto: ${weather}`)
       return
     }
-    onCaption('[Window] Checking the weather…')
+    onCaption('WINDOW — checking the weather…')
     try {
       const r = await fetch(
         'https://api.open-meteo.com/v1/forecast?latitude=43.6532&longitude=-79.3832&current=temperature_2m,weather_code',
@@ -345,9 +345,9 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
       const d = await r.json()
       const text = `${wmoText(d.current.weather_code)}, ${Math.round(d.current.temperature_2m)}°C`
       setWeather(text)
-      onCaption(`[Window] It's ${text} in Toronto right now.`)
+      onCaption(`WINDOW — Toronto: ${text}`)
     } catch {
-      onCaption("[Window] Unable to check the current weather :(")
+      onCaption("WINDOW — can't see outside right now")
     }
   }
 
@@ -355,7 +355,7 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
     const t = new Date()
     setNow(t)
     sound.blip()
-    onCaption(`[Clock] It's currently ${t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} EST.`)
+    onCaption(`CLOCK — it's ${t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`)
   }
 
   return (
@@ -379,13 +379,13 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
           className="hotspot"
           role="button"
           tabIndex={0}
-          aria-label="[Window] Check the weather in Toronto."
+          aria-label="Window — check the weather in Toronto"
           onMouseEnter={() => {
             sound.blip()
-            onCaption("[Window] How's it looking outside?")
+            onCaption("WINDOW — how's it looking outside?")
           }}
           onMouseLeave={() => onCaption(null)}
-          onFocus={() => onCaption("[Window] How's it looking outside?")}
+          onFocus={() => onCaption("WINDOW — how's it looking outside?")}
           onBlur={() => onCaption(null)}
           onClick={checkWeather}
           onKeyDown={(e) => {
@@ -408,13 +408,13 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
           className="hotspot"
           role="button"
           tabIndex={0}
-          aria-label="[Clock] Check the time in Toronto."
+          aria-label="Clock — check the time"
           onMouseEnter={() => {
             sound.blip()
-            onCaption('[Clock] What time is it right now?')
+            onCaption('CLOCK — what time is it?')
           }}
           onMouseLeave={() => onCaption(null)}
-          onFocus={() => onCaption('[Clock] What time is it right now?')}
+          onFocus={() => onCaption('CLOCK — what time is it?')}
           onBlur={() => onCaption(null)}
           onClick={tellTime}
           onKeyDown={(e) => {
@@ -452,8 +452,8 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
         {/* about — bed */}
         <Hotspot
           href="#about"
-          label="[About] Bed"
-          caption="[About] Bed"
+          label="About — bed"
+          caption="ABOUT — my bed"
           hit={[[7, 28, 20, 14]]}
           onCaption={onCaption}
           onClick={open('about')}
@@ -464,8 +464,8 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
         {/* projects — desk, monitor, Rui */}
         <Hotspot
           href="#projects"
-          label="[Projects] Desk and computer"
-          caption="[Projects] Desk and computer"
+          label="Projects — desk and computer"
+          caption="PROJECTS — my desk"
           hit={[[59, 23, 17, 20]]}
           onCaption={onCaption}
           onClick={open('projects')}
@@ -482,8 +482,8 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
         {/* experience — bookshelf */}
         <Hotspot
           href="#experience"
-          label="[Experience] Bookshelf"
-          caption="[Experience] Bookshelf"
+          label="Experience — bookshelf"
+          caption="EXPERIENCE — bookshelf"
           hit={[[79, 18.5, 10, 24]]}
           onCaption={onCaption}
           onClick={open('experience')}
@@ -497,8 +497,8 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
         {/* contact — phone on the nightstand */}
         <Hotspot
           href="#contact"
-          label="[Contact] Phone"
-          caption="[Contact] Phone"
+          label="Contact — phone on the nightstand"
+          caption="CONTACT — phone on the nightstand"
           hit={[[31.5, 30, 4, 4.5]]}
           onCaption={onCaption}
           onClick={open('contact')}
@@ -510,8 +510,8 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
         {/* gallery — photo wall */}
         <Hotspot
           href="/gallery"
-          label="[Gallery] Photo wall"
-          caption="[Gallery] Photo wall"
+          label="Gallery — photo wall"
+          caption="GALLERY — photo wall"
           hit={[[48.5, 11.5, 11, 9]]}
           onCaption={onCaption}
           onClick={(e) => {
@@ -528,14 +528,14 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
           className="hotspot"
           role="button"
           tabIndex={0}
-          aria-label="[Lamp] Toggle day/night"
+          aria-label="Lamp — toggle day and night"
           aria-pressed={theme === 'dark'}
           onMouseEnter={() => {
             sound.blip()
-            onCaption('[Lamp] Toggle day/night')
+            onCaption('LAMP — toggle day/night')
           }}
           onMouseLeave={() => onCaption(null)}
-          onFocus={() => onCaption('[Lamp] Toggle day/night')}
+          onFocus={() => onCaption('LAMP — toggle day/night')}
           onBlur={() => onCaption(null)}
           onClick={toggleLamp}
           onKeyDown={(e) => {

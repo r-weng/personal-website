@@ -134,7 +134,7 @@ function Nav({ theme, onToggleTheme, onOpenSection }: NavProps) {
             onOpenSection(null)
           }}
         >
-          RW
+          翁睿
         </a>
 
         <ul className="nav-links">

@@ -22,7 +22,7 @@ export const projects: Project[] = [
   {
     name: 'The Mind Museum',
     description: 'A full-stack, AI-powered 3D museum that transforms PDFs into interactive virtual exhibits, enabling immersive, spatial learning through LLM-generated content and real-time user exploration.',
-    tech: ['Next.js', 'Three.js', 'Flask', 'ChromaDB', 'Sentence Transformers'],
+    tech: ['Next.js', 'Three.js', 'Flask', 'ChromaDB', 'Sentence Transformers', 'LLM APIs'],
     links: [
       { label: 'GitHub', url: 'https://github.com/BryanYeeee/TheMindMuseum', external: true },
     ],
@@ -54,7 +54,7 @@ export const experience: Experience[] = [
   },
   {
     period: 'May 2026 — Present',
-    company: 'Dept of Computer Science, University of Toronto',
+    company: 'Department of Computer Science, University of Toronto',
     role: 'Software Developer',
     description: 'Designing and maintaining Courseography, an interactive course planning and prerequisite visualization tool used by 3900+ students. Supervised by Professor David Liu.',
   },
