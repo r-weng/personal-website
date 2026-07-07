@@ -28,7 +28,7 @@ export function useScrollOut(ref: RefObject<HTMLElement | null>) {
 
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [ref])
 }
 
 export function useScrollReveal(ref: RefObject<HTMLElement | null>) {
@@ -53,7 +53,10 @@ export function useScrollReveal(ref: RefObject<HTMLElement | null>) {
     }
 
     const observer = new IntersectionObserver(
-      ([entry]) => { entry.isIntersecting ? reveal() : hide() },
+      ([entry]) => {
+        if (entry.isIntersecting) reveal()
+        else hide()
+      },
       { threshold: 0.1 }
     )
 
