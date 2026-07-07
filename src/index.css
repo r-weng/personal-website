@@ -1,5 +1,7 @@
 @import '@fontsource-variable/geist';
 @import '@fontsource-variable/geist-mono';
+@import '@fontsource/press-start-2p';
+@import '@fontsource/pixelify-sans';
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -7,28 +9,34 @@
   padding: 0;
 }
 
-/* ── Light theme ── */
+/* ── Light theme (day) ── */
 :root,
 html.light {
-  --bg: #ffffff;
-  --fg: #1f1f1f;
-  --muted: #737373;
-  --subtle: #a3a3a3;
-  --border: #e3e3e3;
-  --card: #f5f5f5;
-  --nav-bg: rgba(255, 255, 255, 0.8);
+  --bg: #fdf6e3;
+  --fg: #3a2b23;
+  --muted: #6f5c4d;
+  --subtle: #9b8672;
+  --border: #3a2b23;
+  --card: #f7ecd4;
+  --nav-bg: rgba(253, 246, 227, 0.92);
+  --panel-border: #3a2b23;
+  --panel-shadow: rgba(58, 43, 35, 0.35);
+  --accent: #d95763;
   color-scheme: light;
 }
 
-/* ── Dark theme ── */
+/* ── Dark theme (night) ── */
 html.dark {
-  --bg: #000000;
-  --fg: #e3e3e3;
-  --muted: #a3a3a3;
-  --subtle: #737373;
-  --border: #1b1b1c;
-  --card: #141414;
-  --nav-bg: rgba(0, 0, 0, 0.8);
+  --bg: #1a1626;
+  --fg: #e8e3f0;
+  --muted: #b0a8c4;
+  --subtle: #7d7492;
+  --border: #e8e3f0;
+  --card: #241e33;
+  --nav-bg: rgba(26, 22, 38, 0.92);
+  --panel-border: #e8e3f0;
+  --panel-shadow: rgba(0, 0, 0, 0.5);
+  --accent: #ff8fa0;
   color-scheme: dark;
 }
 
