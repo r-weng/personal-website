@@ -1,0 +1,245 @@
+/* ── Scene palette: day (light) / night (dark) ── */
+:root,
+html.light {
+  --px-sky: #aee6f9;
+  --px-sun-moon: #ffd93b;
+  --px-cloud-star: #ffffff;
+  --px-wall: #f2e3c6;
+  --px-wall-shade: #e2cda3;
+  --px-floor: #c98f5a;
+  --px-floor-dark: #a9713f;
+  --px-wood: #8a5a33;
+  --px-wood-dark: #6b4226;
+  --px-outline: #3a2b23;
+  --px-accent: #d95763;
+  --px-accent-2: #6abe30;
+  --px-accent-3: #5b6ee1;
+  --px-glow: transparent;
+  --px-screen: #3fd6c4;
+  --px-screen-dark: #2a9d8f;
+  --px-bunny: #b08968;
+  --px-bunny-shade: #96714f;
+  --px-sheet: #ffffff;
+  --px-skin: #e8b088;
+  --px-hair: #2b2118;
+  --px-hair-hi: #6b5138;
+  --px-top: #d874a8;
+  --px-gold: #ffd93b;
+  --px-night: 0;
+}
+
+html.dark {
+  --px-sky: #1b2447;
+  --px-sun-moon: #f4f0e0;
+  --px-cloud-star: #ffe9a8;
+  --px-wall: #565178;
+  --px-wall-shade: #474269;
+  --px-floor: #6e4f39;
+  --px-floor-dark: #553c2c;
+  --px-wood: #5e4030;
+  --px-wood-dark: #463024;
+  --px-outline: #241d2e;
+  --px-accent: #ff8fa0;
+  --px-accent-2: #8ee06b;
+  --px-accent-3: #7d8cff;
+  --px-glow: #ffd98a;
+  --px-screen: #9ff0e8;
+  --px-screen-dark: #4ecdc4;
+  --px-bunny: #8a6a58;
+  --px-bunny-shade: #715545;
+  --px-sheet: #cfc8de;
+  --px-skin: #c99a7e;
+  --px-hair: #1e1812;
+  --px-hair-hi: #5f4a34;
+  --px-top: #b56b96;
+  --px-gold: #e6b93a;
+  --px-night: 1;
+}
+
+/* ── Scene container: fills the viewport ── */
+.scene-wrap {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  /* letterbox bands (meet mode fits scene to width): wall above the scene,
+     floor below it. Scene half-height = 100vw * (216/384) / 2 = 28.125vw,
+     so the scene's bottom edge sits at 50% + 28.125vw. */
+  background: linear-gradient(
+    var(--px-wall) 0 calc(50% + 28.125vw),
+    var(--px-floor) calc(50% + 28.125vw) 100%
+  );
+}
+
+.bedroom-scene {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.bedroom-scene rect {
+  transition: fill 0.4s steps(4);
+}
+
+/* night-only / day-only element opacity */
+.night-only { opacity: var(--px-night); transition: opacity 0.4s steps(4); }
+.day-only { opacity: calc(1 - var(--px-night)); transition: opacity 0.4s steps(4); }
+
+/* ── Hotspots ── */
+.hotspot {
+  cursor: pointer;
+}
+
+.hotspot .obj {
+  transition: transform 0.15s steps(2), filter 0.15s steps(2);
+}
+
+.hotspot:hover .obj,
+.hotspot:focus-visible .obj {
+  filter: brightness(1.15);
+  transform: translateY(-2px);
+}
+
+/* no focus boxes in the scene — brightness/glow is the focus indicator */
+.hotspot:focus,
+.hotspot:focus-visible,
+.bunny:focus,
+.bunny:focus-visible {
+  outline: none;
+}
+
+.hotspot:focus-visible .obj {
+  filter: brightness(1.25) drop-shadow(0 0 2px var(--px-accent));
+}
+
+.bunny:focus-visible .bunny-body-g {
+  filter: brightness(1.2);
+}
+
+/* ── Caption bar: overlays the bottom of the scene ── */
+.scene-caption {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(640px, calc(100% - 32px));
+  padding: 10px 14px;
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--fg);
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  background: var(--nav-bg);
+}
+
+.scene-caption .caption-accent { color: var(--accent); margin-right: 8px; }
+
+/* ── Lamp glow flicker ── */
+.lamp-glow {
+  opacity: calc(var(--px-night) * 0.9);
+  transition: opacity 0.4s steps(4);
+}
+
+html.dark .lamp-glow {
+  animation: lamp-flicker 4s steps(1) infinite;
+}
+
+@keyframes lamp-flicker {
+  0%, 100% { opacity: 0.9; }
+  47% { opacity: 0.85; }
+  52% { opacity: 0.9; }
+  81% { opacity: 0.86; }
+  84% { opacity: 0.9; }
+}
+
+/* ── Monitor screen glow pulse ── */
+.screen-glow {
+  animation: screen-pulse 3s steps(2) infinite;
+}
+
+@keyframes screen-pulse {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+
+/* ── Phone notification blink ── */
+.phone-notif {
+  animation: retro-blink 1.6s steps(1) infinite;
+}
+
+/* ── Bunny ── */
+.bunny { cursor: pointer; }
+
+.bunny .ear-l,
+.bunny .ear-r,
+.bunny .bunny-body-g {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+
+.bunny .ear-l { animation: bunny-ear-twitch 5s steps(1) infinite; }
+.bunny .ear-r { animation: bunny-ear-twitch 7s steps(1) infinite 2.3s; }
+
+@keyframes bunny-ear-twitch {
+  0%, 88%, 100% { transform: none; }
+  90%, 94% { transform: rotate(-14deg); }
+  92% { transform: rotate(8deg); }
+}
+
+.bunny .eye { animation: bunny-blink 4s steps(1) infinite; }
+
+@keyframes bunny-blink {
+  0%, 96%, 100% { opacity: 1; }
+  97%, 99% { opacity: 0; }
+}
+
+.bunny:hover .bunny-body-g,
+.bunny.is-hopping .bunny-body-g {
+  animation: bunny-hop 0.5s steps(4);
+}
+
+@keyframes bunny-hop {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-8px); }
+  60% { transform: translateY(0); }
+  75% { transform: translateY(-3px); }
+}
+
+/* pixel heart pop (every 5th bunny click) */
+.bunny-heart {
+  animation: heart-pop 0.9s steps(6) forwards;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes heart-pop {
+  0% { opacity: 0; transform: translateY(0) scale(0.6); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-14px) scale(1.1); }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .bedroom-scene rect,
+  .night-only,
+  .day-only,
+  .lamp-glow,
+  .hotspot .obj {
+    transition: none;
+  }
+  .lamp-glow,
+  .screen-glow,
+  .phone-notif,
+  .bunny .ear-l,
+  .bunny .ear-r,
+  .bunny .eye,
+  .bunny:hover .bunny-body-g,
+  .bunny.is-hopping .bunny-body-g,
+  .bunny-heart {
+    animation: none;
+  }
+  .hotspot:hover .obj,
+  .hotspot:focus-visible .obj {
+    transform: none;
+  }
+}
