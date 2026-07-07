@@ -1,5 +1,5 @@
 .gallery-page {
-  padding-top: 48px;
+  padding-top: 110px;
   padding-bottom: 48px;
 }
 
@@ -15,10 +15,12 @@
 
 .gallery-item {
   break-inside: avoid;
-  margin-bottom: 12px;
-  border-radius: 8px;
+  margin-bottom: 16px;
   overflow: hidden;
   background-color: var(--card);
+  border: 3px solid var(--panel-border);
+  padding: 6px 6px 18px;
+  box-shadow: 4px 4px 0 var(--panel-shadow);
 }
 
 .gallery-img {
