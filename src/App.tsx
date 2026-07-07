@@ -1,81 +1,13 @@
-import { useState, useEffect, useRef } from 'react'
-import { Routes, Route, Link, useLocation } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom'
 import { Analytics } from '@vercel/analytics/react'
 import './App.css'
+import './retro.css'
 import Gallery from './Gallery'
-import { useScrollOut, useScrollReveal } from './hooks'
-
-// ── Types ──────────────────────────────────────────────────────────────────
-
-interface Project {
-  name: string
-  description: string
-  tech: string[]
-  links: { label: string; url: string; external?: boolean }[]
-}
-
-interface Experience {
-  period: string
-  company: string
-  role: string
-  description: string
-}
-
-// ── Data ───────────────────────────────────────────────────────────────────
-
-const projects: Project[] = [
-  {
-    name: 'The Mind Museum',
-    description: 'A full-stack, AI-powered 3D museum that transforms PDFs into interactive virtual exhibits, enabling immersive, spatial learning through LLM-generated content and real-time user exploration.',
-    tech: ['Next.js', 'Three.js', 'Flask', 'ChromaDB', 'Sentence Transformers', 'LLM APIs'],
-    links: [
-      { label: 'GitHub', url: 'https://github.com/BryanYeeee/TheMindMuseum', external: true },
-    ],
-  },
-  {
-    name: 'Rostr',
-    description: 'A full-stack fantasy baseball decision-support platform using a custom grading algorithm to evaluate trades, compute pitcher performance scores, and generate optimized pitching order recommendations.',
-    tech: ['React', 'Node.js', 'TypeScript', 'Tailwind CSS', 'Docker', 'PostgreSQL'],
-    links: [
-      { label: 'GitHub', url: 'https://github.com/rostr-ftl2025/rostr', external: true },
-    ],
-  },
-  {
-    name: 'YouLingo (now Mora)',
-    description: 'A full-stack web application that enables users to learn languages through personalized YouTube content.',
-    tech: ['React', 'Node.js', 'Flask', 'Google Cloud Firestore', 'Auth0'],
-    links: [
-      { label: 'GitHub', url: 'https://github.com/Cindyzzz616/Mora', external: true },
-    ],
-  },
-]
-
-const experience: Experience[] = [
-  {
-    period: 'May 2026 — Present',
-    company: 'Acceleration Consortium',
-    role: 'Research Assistant',
-    description: 'Building an agentic AI system to automate research workflows and accelerate experiment execution in SDL6, the self-driving lab for human organ mimicry. Supervised by Dr. Ilya Yakavets.',
-  },
-  {
-    period: 'May 2026 — Present',
-    company: 'Department of Computer Science, University of Toronto',
-    role: 'Software Developer',
-    description: 'Designing and maintaining Courseography, an interactive course planning and prerequisite visualization tool used by 3900+ students. Supervised by Professor David Liu.',
-  },
-  {
-    period: 'Feb 2026 — Present',
-    company: 'UofTHacks',
-    role: 'Software Engineer',
-    description: 'Building the official UofTHacks 14 website.',
-  },
-  {
-    period: 'Sep 2024 — May 2028',
-    company: 'University of Toronto',
-    role: 'B.S. Computer Science and Math',
-    description: 'Currently studying computer science and math at the University of Toronto.',
-  },
-]
+import { projects, experience, type SectionId } from './data'
+import BedroomScene from './components/BedroomScene'
+import Modal from './components/Modal'
+import { useSound } from './useSound'
 
 // ── Theme hook ─────────────────────────────────────────────────────────────
 
@@ -150,29 +82,88 @@ function CameraIcon() {
   )
 }
 
+function SpeakerIcon({ muted }: { muted: boolean }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M11 5 6 9H2v6h4l5 4V5Z" />
+      {muted
+        ? <path d="m16 9 6 6M22 9l-6 6" />
+        : <path d="M15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14" />}
+    </svg>
+  )
+}
+
+function MusicIcon({ on }: { on: boolean }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M9 18V5l12-2v13" />
+      <circle cx="6" cy="18" r="3" />
+      <circle cx="18" cy="16" r="3" />
+      {!on && <path d="M2 2l20 20" />}
+    </svg>
+  )
+}
+
 // ── Nav ────────────────────────────────────────────────────────────────────
 
 interface NavProps {
   theme: 'light' | 'dark'
   onToggleTheme: () => void
+  onOpenSection: (section: SectionId | null) => void
 }
 
-function Nav({ theme, onToggleTheme }: NavProps) {
+function Nav({ theme, onToggleTheme, onOpenSection }: NavProps) {
   const { pathname } = useLocation()
-  const onGallery = pathname === '/gallery'
+  const navigate = useNavigate()
+  const { sfxMuted, musicOn, toggleSfx, toggleMusic } = useSound()
+
+  const openSection = (section: SectionId) => {
+    if (pathname !== '/') navigate('/')
+    onOpenSection(section)
+  }
 
   return (
     <header className="nav-header">
       <nav className="nav-inner">
-        <a href="/" className="nav-logo">翁睿</a>
+        <a
+          href="/"
+          className="nav-logo"
+          onClick={(e) => {
+            e.preventDefault()
+            navigate('/')
+            onOpenSection(null)
+          }}
+        >
+          翁睿
+        </a>
 
         <ul className="nav-links">
-          <li><a href={onGallery ? '/#about' : '#about'}>About</a></li>
-          <li><a href={onGallery ? '/#projects' : '#projects'}>Projects</a></li>
-          <li><a href={onGallery ? '/#experience' : '#experience'}>Experience</a></li>
+          {(['about', 'projects', 'experience'] as SectionId[]).map((s) => (
+            <li key={s}>
+              <button className="nav-link-btn" onClick={() => openSection(s)}>
+                {s[0].toUpperCase() + s.slice(1)}
+              </button>
+            </li>
+          ))}
         </ul>
 
         <div className="nav-actions">
+          <button
+            className="theme-toggle"
+            onClick={toggleSfx}
+            aria-label={sfxMuted ? 'Unmute sound effects' : 'Mute sound effects'}
+            aria-pressed={!sfxMuted}
+          >
+            <SpeakerIcon muted={sfxMuted} />
+          </button>
+          <button
+            className="theme-toggle"
+            onClick={toggleMusic}
+            aria-label={musicOn ? 'Stop chiptune music' : 'Play chiptune music'}
+            aria-pressed={musicOn}
+          >
+            <MusicIcon on={musicOn} />
+          </button>
           <Link to="/gallery" className="theme-toggle" aria-label="Gallery" onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}>
             <CameraIcon />
           </Link>
@@ -189,163 +180,169 @@ function Nav({ theme, onToggleTheme }: NavProps) {
   )
 }
 
-// ── Sections ───────────────────────────────────────────────────────────────
+// ── Section content (rendered inside modals) ───────────────────────────────
 
-function About() {
-  const ref = useRef<HTMLElement>(null)
-  useScrollReveal(ref)
-  useScrollOut(ref)
-
+function SocialLinks() {
   return (
-    <section ref={ref} id="about" className="section section-about">
-      <h1 className="hero-name" data-reveal data-delay="0.05">Rui Weng</h1>
-      <p className="hero-bio" data-reveal data-delay="0.2">
+    <div className="hero-links">
+      <a href="mailto:rui.weng@mail.utoronto.ca" className="hero-link" aria-label="Email">
+        <EmailIcon />
+      </a>
+      <a href="https://github.com/r-weng" target="_blank" rel="noreferrer" className="hero-link" aria-label="GitHub">
+        <GitHubIcon />
+      </a>
+      <a href="https://www.linkedin.com/in/rui-weng-a52a44264/" target="_blank" rel="noreferrer" className="hero-link" aria-label="LinkedIn">
+        <LinkedInIcon />
+      </a>
+    </div>
+  )
+}
+
+function AboutContent() {
+  return (
+    <div>
+      <h1 className="hero-name blink-caret">Rui Weng</h1>
+      <p className="hero-bio">
         I'm currently a third-year computer science and math student at the University of Toronto.
         I enjoy building to solve real-world problems.
       </p>
-      <p className="hero-bio" data-reveal data-delay="0.275">
+      <p className="hero-bio">
         If I'm not coding, then I'm probably baking, reading, or playing badminton.
       </p>
-      <div className="hero-links" data-reveal data-delay="0.35">
-        <a href="mailto:rui.weng@mail.utoronto.ca" className="hero-link" aria-label="Email">
-          <EmailIcon />
-        </a>
-        <a href="https://github.com/r-weng" target="_blank" rel="noreferrer" className="hero-link" aria-label="GitHub">
-          <GitHubIcon />
-        </a>
-        <a href="https://www.linkedin.com/in/rui-weng-a52a44264/" target="_blank" rel="noreferrer" className="hero-link" aria-label="LinkedIn">
-          <LinkedInIcon />
-        </a>
-      </div>
-    </section>
+      <SocialLinks />
+    </div>
   )
 }
 
-function Projects() {
-  const ref = useRef<HTMLElement>(null)
-  useScrollReveal(ref)
-  useScrollOut(ref)
-
+function ProjectsContent() {
   return (
-    <section ref={ref} id="projects" className="section">
-      <div className="section-header" data-reveal data-delay="0">
-        <h2 className="section-title">Projects</h2>
-      </div>
-      <div className="project-list">
-        {projects.map((p, i) => (
-          <article key={p.name} className="project-item" data-reveal data-delay={i * 0.1}>
-            <h3 className="project-name">{p.name}</h3>
-            <p className="project-desc">{p.description}</p>
-            <div className="project-bottom">
-              <div className="project-tags">
-                {p.tech.map((t) => <span key={t} className="project-tag">{t}</span>)}
-              </div>
-              <div className="project-links">
-                {p.links.map((l) => (
-                  <a
-                    key={l.label}
-                    href={l.url}
-                    target={l.external ? '_blank' : undefined}
-                    rel={l.external ? 'noreferrer' : undefined}
-                    className="project-link"
-                    aria-label={l.label}
-                  >
-                    {l.label.toLowerCase().includes('github') ? <GitHubIcon /> : l.label}
-                  </a>
-                ))}
-              </div>
+    <div className="project-list">
+      {projects.map((p) => (
+        <article key={p.name} className="project-item pixel-panel">
+          <h3 className="project-name">{p.name}</h3>
+          <p className="project-desc">{p.description}</p>
+          <div className="project-bottom">
+            <div className="project-tags">
+              {p.tech.map((t) => <span key={t} className="project-tag">{t}</span>)}
             </div>
-          </article>
-        ))}
-      </div>
-    </section>
-  )
-}
-
-function Experience() {
-  const ref = useRef<HTMLElement>(null)
-  useScrollReveal(ref)
-  useScrollOut(ref)
-
-  return (
-    <section ref={ref} id="experience" className="section">
-      <div className="section-header" data-reveal data-delay="0">
-        <h2 className="section-title">Experience</h2>
-      </div>
-      <div className="exp-list">
-        {experience.map((e, i) => (
-          <article key={e.company} className="exp-item" data-reveal data-delay={i * 0.1}>
-            <span className="exp-period">{e.period}</span>
-            <div className="exp-header">
-              <h3 className="exp-company">{e.company}</h3>
-              <span className="exp-role">{e.role}</span>
+            <div className="project-links">
+              {p.links.map((l) => (
+                <a
+                  key={l.label}
+                  href={l.url}
+                  target={l.external ? '_blank' : undefined}
+                  rel={l.external ? 'noreferrer' : undefined}
+                  className="project-link"
+                  aria-label={l.label}
+                >
+                  {l.label.toLowerCase().includes('github') ? <GitHubIcon /> : l.label}
+                </a>
+              ))}
             </div>
-            <p className="exp-desc">{e.description}</p>
-          </article>
-        ))}
-      </div>
-    </section>
+          </div>
+        </article>
+      ))}
+    </div>
   )
 }
 
-function Contact() {
-  const ref = useRef<HTMLElement>(null)
-  useScrollReveal(ref)
-  useScrollOut(ref)
-
+function ExperienceContent() {
   return (
-    <section ref={ref} id="contact" className="section">
-      <div className="section-header" data-reveal data-delay="0">
-        <h2 className="section-title">Contact</h2>
-      </div>
-      <p className="hero-bio" data-reveal data-delay="0.1">
+    <div className="exp-list">
+      {experience.map((e) => (
+        <article key={e.company} className="exp-item">
+          <span className="exp-period">{e.period}</span>
+          <div className="exp-header">
+            <h3 className="exp-company">{e.company}</h3>
+            <span className="exp-role">{e.role}</span>
+          </div>
+          <p className="exp-desc">{e.description}</p>
+        </article>
+      ))}
+    </div>
+  )
+}
+
+function ContactContent() {
+  return (
+    <div>
+      <p className="hero-bio">
         I'm always happy to chat. Feel free to reach out!
       </p>
-      <div className="hero-links" data-reveal data-delay="0.35">
-        <a href="mailto:rui.weng@mail.utoronto.ca" className="hero-link" aria-label="Email">
-          <EmailIcon />
+      <div className="contact-menu">
+        <a href="mailto:rui.weng@mail.utoronto.ca">
+          <EmailIcon /> Email
         </a>
-        <a href="https://github.com/r-weng" target="_blank" rel="noreferrer" className="hero-link" aria-label="GitHub">
-          <GitHubIcon />
+        <a href="https://github.com/r-weng" target="_blank" rel="noreferrer">
+          <GitHubIcon /> GitHub
         </a>
-        <a href="https://www.linkedin.com/in/rui-weng-a52a44264/" target="_blank" rel="noreferrer" className="hero-link" aria-label="LinkedIn">
-          <LinkedInIcon />
+        <a href="https://www.linkedin.com/in/rui-weng-a52a44264/" target="_blank" rel="noreferrer">
+          <LinkedInIcon /> LinkedIn
         </a>
       </div>
-    </section>
+    </div>
   )
 }
 
-// ── App ────────────────────────────────────────────────────────────────────
+const SECTIONS: Record<SectionId, { title: string; content: () => React.ReactNode }> = {
+  about: { title: 'About', content: AboutContent },
+  projects: { title: 'Projects', content: ProjectsContent },
+  experience: { title: 'Experience', content: ExperienceContent },
+  contact: { title: 'Contact', content: ContactContent },
+}
 
-function Home() {
+// ── Home ───────────────────────────────────────────────────────────────────
+
+interface HomeProps {
+  theme: 'light' | 'dark'
+  onToggleTheme: () => void
+  activeSection: SectionId | null
+  onOpenSection: (section: SectionId | null) => void
+}
+
+function Home({ theme, onToggleTheme, activeSection, onOpenSection }: HomeProps) {
+  // support old /#about style deep links
   useEffect(() => {
-    const hash = window.location.hash
-    if (!hash) return
-    requestAnimationFrame(() => {
-      const el = document.querySelector(hash)
-      if (el) el.scrollIntoView({ behavior: 'smooth' })
-    })
-  }, [])
+    const hash = window.location.hash.slice(1)
+    if (hash in SECTIONS) {
+      onOpenSection(hash as SectionId)
+      history.replaceState(null, '', '/')
+    }
+  }, [onOpenSection])
+
+  const section = activeSection ? SECTIONS[activeSection] : null
 
   return (
-    <main className="main">
-      <About />
-      <Projects />
-      <Experience />
-      <Contact />
+    <main className="scene-stage">
+      <BedroomScene theme={theme} onToggleTheme={onToggleTheme} onOpenSection={onOpenSection} />
+      {section && (
+        <Modal title={section.title} onClose={() => onOpenSection(null)}>
+          {section.content()}
+        </Modal>
+      )}
     </main>
   )
 }
 
 export default function App() {
   const { theme, toggle } = useTheme()
+  const [activeSection, setActiveSection] = useState<SectionId | null>(null)
 
   return (
     <div className="page">
-      <Nav theme={theme} onToggleTheme={toggle} />
+      <Nav theme={theme} onToggleTheme={toggle} onOpenSection={setActiveSection} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={
+            <Home
+              theme={theme}
+              onToggleTheme={toggle}
+              activeSection={activeSection}
+              onOpenSection={setActiveSection}
+            />
+          }
+        />
         <Route path="/gallery" element={<Gallery />} />
       </Routes>
       <Analytics />
