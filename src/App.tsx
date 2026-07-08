@@ -11,6 +11,14 @@ import { useSound } from './useSound'
 
 // ── Theme hook ─────────────────────────────────────────────────────────────
 
+// Day runs 6am–6pm. A manual toggle is stored and wins; without one the
+// theme follows the clock, flipping live at the 6 o'clock boundaries.
+// (Initial paint is handled by the inline script in index.html.)
+const timeTheme = () => {
+  const hour = new Date().getHours()
+  return hour >= 6 && hour < 18 ? 'light' : 'dark'
+}
+
 function useTheme() {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (document.documentElement.classList.contains('dark')) return 'dark'
@@ -22,10 +30,31 @@ function useTheme() {
     root.classList.remove('light', 'dark')
     root.classList.add(theme)
     root.style.colorScheme = theme
-    localStorage.setItem('theme', theme)
   }, [theme])
 
-  const toggle = () => setTheme(t => (t === 'light' ? 'dark' : 'light'))
+  // flip with the clock while the page is open, unless manually overridden
+  useEffect(() => {
+    let timer: number
+    const scheduleNextFlip = () => {
+      const now = new Date()
+      const next = new Date(now)
+      next.setMinutes(0, 0, 0)
+      next.setHours(now.getHours() < 6 ? 6 : now.getHours() < 18 ? 18 : 30) // 30 = 6am tomorrow
+      timer = window.setTimeout(() => {
+        if (!localStorage.getItem('theme-override')) setTheme(timeTheme())
+        scheduleNextFlip()
+      }, next.getTime() - now.getTime())
+    }
+    scheduleNextFlip()
+    return () => window.clearTimeout(timer)
+  }, [])
+
+  const toggle = () =>
+    setTheme((t) => {
+      const next = t === 'light' ? 'dark' : 'light'
+      localStorage.setItem('theme-override', next)
+      return next
+    })
   return { theme, toggle }
 }
 
@@ -93,17 +122,6 @@ function SpeakerIcon({ muted }: { muted: boolean }) {
   )
 }
 
-function MusicIcon({ on }: { on: boolean }) {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M9 18V5l12-2v13" />
-      <circle cx="6" cy="18" r="3" />
-      <circle cx="18" cy="16" r="3" />
-      {!on && <path d="M2 2l20 20" />}
-    </svg>
-  )
-}
-
 // ── Nav ────────────────────────────────────────────────────────────────────
 
 interface NavProps {
@@ -115,7 +133,7 @@ interface NavProps {
 function Nav({ theme, onToggleTheme, onOpenSection }: NavProps) {
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  const { sfxMuted, musicOn, toggleSfx, toggleMusic } = useSound()
+  const { sfxMuted, toggleSfx } = useSound()
 
   const openSection = (section: SectionId) => {
     if (pathname !== '/') navigate('/')
@@ -148,14 +166,6 @@ function Nav({ theme, onToggleTheme, onOpenSection }: NavProps) {
             aria-pressed={!sfxMuted}
           >
             <SpeakerIcon muted={sfxMuted} />
-          </button>
-          <button
-            className="theme-toggle"
-            onClick={toggleMusic}
-            aria-label={musicOn ? 'Stop chiptune music' : 'Play chiptune music'}
-            aria-pressed={musicOn}
-          >
-            <MusicIcon on={musicOn} />
           </button>
           <Link to="/gallery" className="theme-toggle" aria-label="Gallery" onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}>
             <CameraIcon />
@@ -277,10 +287,10 @@ function ContactContent() {
   )
 }
 
-const SECTIONS: Record<SectionId, { title: string; content: () => React.ReactNode }> = {
+const SECTIONS: Record<SectionId, { title: string; tall?: boolean; content: () => React.ReactNode }> = {
   about: { title: 'About', content: AboutContent },
-  projects: { title: 'Projects', content: ProjectsContent },
-  experience: { title: 'Experience', content: ExperienceContent },
+  projects: { title: 'Projects', tall: true, content: ProjectsContent },
+  experience: { title: 'Experience', tall: true, content: ExperienceContent },
   contact: { title: 'Contact', content: ContactContent },
 }
 
@@ -309,7 +319,7 @@ function Home({ theme, onToggleTheme, activeSection, onOpenSection }: HomeProps)
     <main className="scene-stage">
       <BedroomScene theme={theme} onToggleTheme={onToggleTheme} onOpenSection={onOpenSection} />
       {section && (
-        <Modal title={section.title} onClose={() => onOpenSection(null)}>
+        <Modal title={section.title} tall={section.tall} onClose={() => onOpenSection(null)}>
           {section.content()}
         </Modal>
       )}
