@@ -8,14 +8,9 @@ const SFX_KEY = 'sfx-muted'
 
 class SoundEngine {
   private ctx: AudioContext | null = null
-  private musicGain: GainNode | null = null
-  private musicTimer: number | null = null
-  private nextNoteTime = 0
-  private noteIndex = 0
   private listeners = new Set<Listener>()
 
   sfxMuted = localStorage.getItem(SFX_KEY) === 'true'
-  musicOn = false // never auto-starts; user must toggle each visit
 
   subscribe = (fn: Listener) => {
     this.listeners.add(fn)
@@ -99,82 +94,6 @@ class SoundEngine {
     localStorage.setItem(SFX_KEY, String(this.sfxMuted))
     if (!this.sfxMuted) this.confirm()
     this.notify()
-  }
-
-  // ── Music: 4-bar chiptune loop, lookahead scheduler ──────────────────────
-
-  // ~104 BPM, 8th notes. 0 = rest. Frequencies in Hz.
-  private static LEAD = [
-    523, 0, 659, 523, 784, 0, 659, 0,
-    523, 0, 659, 784, 880, 0, 784, 659,
-    587, 0, 698, 587, 880, 0, 698, 0,
-    784, 659, 523, 0, 659, 0, 523, 0,
-  ]
-  private static BASS = [
-    131, 0, 131, 0, 165, 0, 165, 0,
-    131, 0, 131, 0, 196, 0, 196, 0,
-    147, 0, 147, 0, 175, 0, 175, 0,
-    196, 0, 165, 0, 131, 0, 131, 0,
-  ]
-  private static STEP = 60 / 104 / 2 // 8th note duration
-
-  private scheduleNote(index: number, time: number) {
-    const ctx = this.ctx
-    if (!ctx || !this.musicGain) return
-    const lead = SoundEngine.LEAD[index % SoundEngine.LEAD.length]
-    const bass = SoundEngine.BASS[index % SoundEngine.BASS.length]
-    const play = (freq: number, type: OscillatorType, vol: number) => {
-      if (!freq) return
-      const osc = ctx.createOscillator()
-      const gain = ctx.createGain()
-      osc.type = type
-      osc.frequency.setValueAtTime(freq, time)
-      gain.gain.setValueAtTime(vol, time)
-      gain.gain.exponentialRampToValueAtTime(0.0001, time + SoundEngine.STEP * 0.9)
-      osc.connect(gain).connect(this.musicGain as GainNode)
-      osc.start(time)
-      osc.stop(time + SoundEngine.STEP)
-      osc.onended = () => {
-        osc.disconnect()
-        gain.disconnect()
-      }
-    }
-    play(lead, 'square', 0.5)
-    play(bass, 'triangle', 0.7)
-  }
-
-  /** Toggle background music. Call ONLY from a user gesture. */
-  toggleMusic() {
-    if (this.musicOn) {
-      this.stopMusic()
-    } else {
-      const ctx = this.ensureCtx()
-      if (!ctx) return
-      this.musicGain = ctx.createGain()
-      this.musicGain.gain.value = 0.05
-      this.musicGain.connect(ctx.destination)
-      this.noteIndex = 0
-      this.nextNoteTime = ctx.currentTime + 0.1
-      this.musicTimer = window.setInterval(() => {
-        while (this.nextNoteTime < (this.ctx as AudioContext).currentTime + 0.1) {
-          this.scheduleNote(this.noteIndex, this.nextNoteTime)
-          this.nextNoteTime += SoundEngine.STEP
-          this.noteIndex++
-        }
-      }, 25)
-      this.musicOn = true
-    }
-    this.notify()
-  }
-
-  private stopMusic() {
-    if (this.musicTimer !== null) {
-      clearInterval(this.musicTimer)
-      this.musicTimer = null
-    }
-    this.musicGain?.disconnect()
-    this.musicGain = null
-    this.musicOn = false
   }
 }
 
