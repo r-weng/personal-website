@@ -19,6 +19,11 @@
   outline: none;
 }
 
+/* long scrolling sections (Projects, Experience) share one fixed height */
+.modal-tall {
+  height: min(620px, calc(100svh - 110px));
+}
+
 @keyframes modal-pop {
   0% { opacity: 0; transform: translateY(14px) scale(0.96); }
   100% { opacity: 1; transform: none; }
@@ -28,6 +33,7 @@
   position: absolute;
   top: 10px;
   right: 10px;
+  z-index: 1;
   width: 32px;
   height: 32px;
   display: flex;
@@ -51,6 +57,12 @@
   padding: 8px 4px 4px;
   overflow-y: auto;
   min-height: 0;
+  /* scrolls without a visible scrollbar */
+  scrollbar-width: none;
+}
+
+.modal-content::-webkit-scrollbar {
+  display: none;
 }
 
 .modal-content .section-title {

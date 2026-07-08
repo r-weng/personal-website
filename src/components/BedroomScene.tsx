@@ -64,7 +64,8 @@ const BACKGROUND: Cell[] = [
   [78, 50, 9, 0.25, 'floor-dark'],
 ]
 
-const WINDOW_FRAME: Cell[] = shift(4, 3.5, [
+// centered over the bed + nightstand group (x8–35, center 21.5)
+const WINDOW_FRAME: Cell[] = shift(10, 7, [
   [5, 4, 13, 11, 'wood'],
   [6, 5, 11, 9, 'sky'],
   [11.25, 5, 0.5, 9, 'wood'],
@@ -72,14 +73,14 @@ const WINDOW_FRAME: Cell[] = shift(4, 3.5, [
   [4, 15, 15, 1, 'wood-dark'],
 ])
 
-const WINDOW_DAY: Cell[] = shift(4, 3.5, [
+const WINDOW_DAY: Cell[] = shift(10, 7, [
   [14, 6, 2, 2, 'sun-moon'],
   [7, 8, 4, 1, 'cloud-star'],
   [8, 7.5, 2, 0.5, 'cloud-star'],
   [13, 11.5, 3, 1, 'cloud-star'],
 ])
 
-const WINDOW_NIGHT: Cell[] = shift(4, 3.5, [
+const WINDOW_NIGHT: Cell[] = shift(10, 7, [
   [14, 6, 2, 2, 'sun-moon'],
   [13.5, 6.5, 1, 1, 'sky'],
   [7.5, 7, 0.5, 0.5, 'cloud-star'],
@@ -90,15 +91,10 @@ const WINDOW_NIGHT: Cell[] = shift(4, 3.5, [
   [10, 6, 0.5, 0.5, 'cloud-star'],
 ])
 
-// Clock face (stepped pixel circle); hands are drawn separately,
-// rotated to the real time.
+// Square clock face; hands are drawn separately, rotated to the real time.
 const CLOCK_FACE: Cell[] = shift(7, 9, [
-  // circular rim
-  [32.5, 5, 3, 4, 'outline'],
-  [32, 5.5, 4, 3, 'outline'],
-  // face
-  [33, 5.5, 2, 3, 'sheet'],
-  [32.5, 6, 3, 2, 'sheet'],
+  [32, 5, 4, 4, 'outline'],
+  [32.5, 5.5, 3, 3, 'sheet'],
 ])
 
 // Clock center in SVG units: cell (41, 16)
@@ -116,15 +112,15 @@ const RUG: Cell[] = shift(13, 9, [
 ])
 
 const BED: Cell[] = shift(6, 7, [
-  [2, 22, 2, 11, 'wood'],          // headboard
-  [18, 25, 2, 8, 'wood'],          // footboard
-  [4, 25, 14, 2, 'sheet'],         // mattress
-  [4, 23, 4, 2, 'sheet'],          // pillow
-  [8, 25, 10, 5, 'accent'],        // blanket
-  [8, 28, 10, 1, 'accent-3'],      // blanket stripe
-  [4, 30, 14, 2, 'wood'],          // bed base
+  [2, 23, 2, 10, 'wood'],          // headboard
+  [16, 25, 2, 8, 'wood'],          // footboard
+  [4, 25, 12, 5, 'sheet'],         // mattress (reaches the bed base — no wall gap)
+  [4, 25, 4, 2, 'sheet'],          // pillow, level with the sheets
+  [8, 25, 8, 5, 'accent'],         // blanket
+  [8, 28, 8, 1, 'accent-3'],       // blanket stripe
+  [4, 30, 12, 2, 'wood'],          // bed base
   [4, 32, 1, 2.5, 'wood-dark'],    // legs (ground line at y41.5, like all furniture)
-  [17, 32, 1, 2.5, 'wood-dark'],
+  [15, 32, 1, 2.5, 'wood-dark'],
 ])
 
 const BOOKSHELF: Cell[] = shift(25, 9.5, [
@@ -151,23 +147,26 @@ const BOOKSHELF: Cell[] = shift(25, 9.5, [
   [60, 27, 1, 4, 'accent-2'],
 ])
 
+// desk is static decor; only the computer on it is the Projects hotspot
 const DESK: Cell[] = shift(19, 7, [
-  // monitor (right side of the desk, clear of the figure)
-  [48, 18, 8, 6, 'outline'],
-  [51.5, 24, 1, 2, 'outline'],
-  [50.5, 25.5, 3, 0.5, 'outline'],
-  // desk
   [42, 26, 14, 1.5, 'wood'],
   [42, 27.5, 1.5, 7, 'wood-dark'],
   [54.5, 27.5, 1.5, 7, 'wood-dark'],
 ])
 
-const DESK_SCREEN: Cell[] = shift(19, 7, [
+// monitor on the right side of the desk, clear of the figure
+const MONITOR: Cell[] = shift(19, 7, [
+  [48, 18, 8, 6, 'outline'],
+  [51.5, 24, 1, 2, 'outline'],
+  [50.5, 25.5, 3, 0.5, 'outline'],
+])
+
+const MONITOR_SCREEN: Cell[] = shift(19, 7, [
   [49, 19, 6, 4, 'screen'],
 ])
 
 // code editor: lines with indents filling the screen
-const DESK_CODE: Cell[] = shift(19, 7, [
+const MONITOR_CODE: Cell[] = shift(19, 7, [
   [49.5, 19.5, 2.5, 0.5, 'screen-dark'],
   [50.25, 20.25, 3, 0.5, 'screen-dark'],
   [50.25, 21, 2, 0.5, 'screen-dark'],
@@ -176,10 +175,9 @@ const DESK_CODE: Cell[] = shift(19, 7, [
   [53.5, 19.5, 1, 0.5, 'screen-dark'],
 ])
 
+// Standing figure at the desk, back view — tapered silhouette:
+// shoulders 4 → chest 4.5 → 3.5 → waist 2.5 → hips 4
 const RUI: Cell[] = shift(18, 8.5, [
-  // standing figure, back view — tapered silhouette:
-  // shoulders 4 → chest 4.5 → 3.5 → waist 2.5 → hips 4
-  // legs + shoes touching the floor; shorts sit below the desk-top band
   [46.5, 27, 1, 5, 'skin'],        // left leg
   [48.5, 27, 1, 5, 'skin'],        // right leg
   [46.25, 32, 1.5, 1, 'outline'],  // left shoe (on the floor)
@@ -245,6 +243,18 @@ const LAMP_GLOW: Cell[] = shift(7, 7, [
   [19, 18, 8, 8, 'glow', 0.15],
   [20.5, 19.5, 5, 5, 'glow', 0.25],
 ])
+
+// Clock and caption both show Toronto time, wherever the visitor is.
+function torontoTime(d: Date) {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Toronto',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: false,
+  }).formatToParts(d)
+  const get = (type: string) => Number(parts.find((p) => p.type === type)?.value ?? 0)
+  return { h: get('hour'), m: get('minute') }
+}
 
 // WMO weather codes → short description (Open-Meteo)
 function wmoText(code: number): string {
@@ -326,13 +336,14 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
   }
 
   const [now, setNow] = useState(() => new Date())
-  const hourAngle = ((now.getHours() % 12) + now.getMinutes() / 60) * 30
-  const minuteAngle = now.getMinutes() * 6
+  const toronto = torontoTime(now)
+  const hourAngle = ((toronto.h % 12) + toronto.m / 60) * 30
+  const minuteAngle = toronto.m * 6
 
   const [weather, setWeather] = useState<string | null>(null)
 
   const checkWeather = async () => {
-    sound.blip()
+    sound.chirp()
     if (weather) {
       onCaption(`[Window] It's ${weather} in Toronto right now.`)
       return
@@ -354,8 +365,8 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
   const tellTime = () => {
     const t = new Date()
     setNow(t)
-    sound.blip()
-    onCaption(`[Clock] It's currently ${t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })} EST.`)
+    sound.chirp()
+    onCaption(`[Clock] It's currently ${t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', timeZone: 'America/Toronto' })} in Toronto.`)
   }
 
   return (
@@ -369,7 +380,7 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
         viewBox="0 0 384 216"
         preserveAspectRatio={wide ? 'xMidYMid slice' : 'xMidYMid meet'}
         shapeRendering="crispEdges"
-        aria-label="Pixel art bedroom with Rui at a desk and a pet bunny"
+        aria-label="Pixel art bedroom with Rui at her desk and a pet bunny"
       >
         {/* background */}
         {cells(BACKGROUND)}
@@ -400,7 +411,7 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
             <g className="day-only" aria-hidden="true">{cells(WINDOW_DAY)}</g>
             <g className="night-only" aria-hidden="true">{cells(WINDOW_NIGHT)}</g>
           </g>
-          <rect x={8 * C} y={6.5 * C} width={16 * C} height={13 * C} fill="transparent" />
+          <rect x={14 * C} y={10.5 * C} width={16 * C} height={13 * C} fill="transparent" />
         </g>
 
         {/* clock — click to read the time */}
@@ -449,35 +460,38 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
         {/* decor */}
         {cells(RUG)}
 
-        {/* about — bed */}
-        <Hotspot
-          href="#about"
-          label="[About] Bed"
-          caption="[About] Bed"
-          hit={[[7, 28, 20, 14]]}
-          onCaption={onCaption}
-          onClick={open('about')}
-        >
-          {cells(BED)}
-        </Hotspot>
+        {/* bed is static decor */}
+        {cells(BED)}
 
-        {/* projects — desk, monitor, Rui */}
+        {/* desk is static decor; only the computer lifts on hover */}
+        {cells(DESK)}
+
+        {/* projects — computer on the desk */}
         <Hotspot
           href="#projects"
-          label="[Projects] Desk and computer"
-          caption="[Projects] Desk and computer"
-          hit={[[59, 23, 17, 20]]}
+          label="[Projects] Computer"
+          caption="[Projects] Computer"
+          hit={[[66.5, 24.5, 9, 9]]}
           onCaption={onCaption}
           onClick={open('projects')}
         >
-          {cells(DESK)}
-          <g className="screen-glow">{cells(DESK_SCREEN)}</g>
-          {cells(DESK_CODE)}
+          {cells(MONITOR)}
+          <g className="screen-glow">{cells(MONITOR_SCREEN)}</g>
+          {cells(MONITOR_CODE)}
         </Hotspot>
 
-        {/* Rui — drawn over the desk but outside its hover group, so the
-            figure doesn't lift with the table; clicks pass through */}
-        <g pointerEvents="none" aria-hidden="true">{cells(RUI)}</g>
+        {/* about — Rui at the desk; drawn after the computer hotspot so
+            clicking or hovering her opens About, not Projects */}
+        <Hotspot
+          href="#about"
+          label="[About] Rui"
+          caption="[About] That's me!"
+          hit={[[63, 26.5, 6.5, 15.5]]}
+          onCaption={onCaption}
+          onClick={open('about')}
+        >
+          {cells(RUI)}
+        </Hotspot>
 
         {/* experience — bookshelf */}
         <Hotspot
@@ -550,7 +564,7 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
         </g>
 
         {/* bunny — easter egg */}
-        <Bunny x={45.5} y={33} />
+        <Bunny x={45.5} y={33} onCaption={onCaption} />
 
         {/* lamp glow overlay (night only) */}
         <g className="lamp-glow" pointerEvents="none" aria-hidden="true">
@@ -559,7 +573,7 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
       </svg>
 
       <div className="pixel-panel scene-caption" aria-live="polite">
-        <span className="caption-accent">{caption ? '▶' : '▸'}</span>
+        {caption && <span className="caption-accent">▶</span>}
         {caption ?? DEFAULT_CAPTION}
       </div>
     </div>

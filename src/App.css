@@ -108,10 +108,8 @@
   margin-bottom: 48px;
 }
 
+/* sizing/typography come from the retro layer (retro.css) */
 .section-title {
-  font-size: clamp(28px, 4vw, 40px);
-  font-weight: 600;
-  letter-spacing: -0.03em;
   color: var(--fg);
 }
 
@@ -312,11 +310,6 @@
   max-width: 52ch;
 }
 
-/* ── Contact ── */
-#contact .section-header {
-  margin-bottom: 20px;
-}
-
 /* ── Responsive ── */
 @media (max-width: 580px) {
   .project-bottom {
@@ -338,7 +331,6 @@
     margin-right: auto;
   }
 
-
   .nav-actions {
     gap: 4px;
   }
@@ -349,8 +341,8 @@
   }
 
   .nav-link-btn {
-    font-size: 13px;
-    padding: 4px 6px;
+    font-size: 12px;
+    padding: 3px 5px;
   }
 }
 

@@ -20,9 +20,10 @@ interface BunnyProps {
   /** Top-left of the bunny in grid cells (ears row). */
   x: number
   y: number
+  onCaption: (text: string | null) => void
 }
 
-export default function Bunny({ x, y }: BunnyProps) {
+export default function Bunny({ x, y, onCaption }: BunnyProps) {
   const [hopping, setHopping] = useState(false)
   const [heart, setHeart] = useState(0)
   const clicks = useRef(0)
@@ -37,12 +38,26 @@ export default function Bunny({ x, y }: BunnyProps) {
     if (clicks.current % 5 === 0) setHeart((h) => h + 1)
   }
 
+  // shrink the sprite toward its bottom-center anchor so the feet
+  // stay planted on the rug
+  const SCALE = 0.75
+  const anchorX = (x + 2.5) * C
+  const anchorY = (y + 9) * C
+
   return (
     <g
+      transform={`translate(${anchorX} ${anchorY}) scale(${SCALE}) translate(${-anchorX} ${-anchorY})`}
       className={`bunny${hopping ? ' is-hopping' : ''}`}
       role="button"
       tabIndex={0}
-      aria-label="Pet the bunny"
+      aria-label="[Louis] Pet the bunny"
+      onMouseEnter={() => {
+        sound.blip()
+        onCaption('[Louis] Pet me!')
+      }}
+      onMouseLeave={() => onCaption(null)}
+      onFocus={() => onCaption('[Louis] Pet me!')}
+      onBlur={() => onCaption(null)}
       onClick={activate}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {

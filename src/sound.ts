@@ -5,7 +5,6 @@
 type Listener = () => void
 
 const SFX_KEY = 'sfx-muted'
-const MUSIC_KEY = 'music-on'
 
 class SoundEngine {
   private ctx: AudioContext | null = null
@@ -165,7 +164,6 @@ class SoundEngine {
       }, 25)
       this.musicOn = true
     }
-    localStorage.setItem(MUSIC_KEY, String(this.musicOn))
     this.notify()
   }
 

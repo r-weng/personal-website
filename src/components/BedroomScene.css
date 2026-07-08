@@ -115,24 +115,33 @@ html.dark {
   filter: brightness(1.2);
 }
 
-/* ── Caption bar: overlays the bottom of the scene ── */
+/* ── Caption bar: overlays the bottom of the scene, sized like the navbar ── */
 .scene-caption {
   position: absolute;
   bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
-  width: min(640px, calc(100% - 32px));
-  padding: 10px 14px;
+  width: calc(100% - 64px);
+  max-width: 680px;
+  height: 52px;
+  padding: 0 20px;
   font-size: 10px;
   line-height: 1.6;
   color: var(--fg);
-  min-height: 40px;
   display: flex;
   align-items: center;
+  justify-content: center;
   background: var(--nav-bg);
 }
 
 .scene-caption .caption-accent { color: var(--accent); margin-right: 8px; }
+
+@media (max-width: 580px) {
+  /* match the navbar's mobile width */
+  .scene-caption {
+    width: calc(100% - 24px);
+  }
+}
 
 /* ── Lamp glow flicker ── */
 .lamp-glow {

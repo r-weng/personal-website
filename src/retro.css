@@ -27,7 +27,7 @@
 
 .project-name,
 .exp-company,
-.pixel-tag,
+.project-tag,
 .contact-menu a {
   font-family: 'Pixelify Sans', 'Geist Variable', system-ui, sans-serif;
   letter-spacing: 0.01em;
@@ -72,17 +72,6 @@
 
 html.dark .pixel-panel-title { color: #1a1626; }
 
-/* ── Square tech badges ── */
-.pixel-tag {
-  font-size: 13px;
-  color: var(--fg);
-  background: var(--card);
-  border: 2px solid var(--panel-border);
-  border-radius: 0;
-  padding: 2px 8px;
-  box-shadow: 2px 2px 0 var(--panel-shadow);
-}
-
 /* ── Focus / interactive ── */
 .pixel-btn:focus-visible,
 .theme-toggle:focus-visible {
@@ -91,10 +80,16 @@ html.dark .pixel-panel-title { color: #1a1626; }
 }
 
 /* ── Blinking caret ── */
+/* CSS box instead of the ▌ glyph: Press Start 2P lacks it, and the
+   fallback font's metrics left it visually off-center */
 .blink-caret::after {
-  content: '▌';
-  margin-left: 6px;
-  color: var(--accent);
+  content: '';
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  margin-left: 8px;
+  background: var(--accent);
+  vertical-align: middle;
   animation: retro-blink 1s steps(1) infinite;
 }
 

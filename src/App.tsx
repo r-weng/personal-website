@@ -125,20 +125,13 @@ function Nav({ theme, onToggleTheme, onOpenSection }: NavProps) {
   return (
     <header className="nav-header">
       <nav className="nav-inner">
-        <a
-          href="/"
-          className="nav-logo"
-          onClick={(e) => {
-            e.preventDefault()
-            navigate('/')
-            onOpenSection(null)
-          }}
-        >
+        {/* plain link: full page refresh by design */}
+        <a href="/" className="nav-logo">
           RW
         </a>
 
         <ul className="nav-links">
-          {(['about', 'projects', 'experience'] as SectionId[]).map((s) => (
+          {(['about', 'projects', 'experience', 'contact'] as SectionId[]).map((s) => (
             <li key={s}>
               <button className="nav-link-btn" onClick={() => openSection(s)}>
                 {s[0].toUpperCase() + s.slice(1)}
