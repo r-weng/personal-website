@@ -26,12 +26,13 @@
 .gallery-img {
   display: block;
   width: 100%;
-  opacity: 0;
-  transition: opacity 0.4s ease;
 }
 
-.gallery-img.loaded {
-  opacity: 1;
+/* keep the whole polaroid hidden until its photo has loaded — otherwise the
+   empty frames render as short horizontal blocks. Specificity (0,3,0) so it
+   also wins over [data-reveal].revealed while loading. */
+.gallery-item:not(:has(.gallery-img.loaded)) {
+  opacity: 0;
 }
 
 .gallery-item:hover .gallery-img {
