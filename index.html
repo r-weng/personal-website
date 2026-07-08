@@ -8,8 +8,12 @@
     <script>
       (function () {
         try {
-          var stored = localStorage.getItem('theme');
-          var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          // manual choice wins; otherwise follow the clock (day = 6am-6pm).
+          // key is 'theme-override' — the old 'theme' key was auto-written on
+          // every visit, so it can't be trusted as a deliberate choice
+          var stored = localStorage.getItem('theme-override');
+          var hour = new Date().getHours();
+          var theme = stored || (hour >= 6 && hour < 18 ? 'light' : 'dark');
           document.documentElement.classList.add(theme);
           document.documentElement.style.colorScheme = theme;
         } catch (e) {}
