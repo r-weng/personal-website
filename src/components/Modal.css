@@ -19,11 +19,6 @@
   outline: none;
 }
 
-/* long scrolling sections (Projects, Experience) share one fixed height */
-.modal-tall {
-  height: min(620px, calc(100svh - 110px));
-}
-
 @keyframes modal-pop {
   0% { opacity: 0; transform: translateY(14px) scale(0.96); }
   100% { opacity: 1; transform: none; }
