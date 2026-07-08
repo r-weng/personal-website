@@ -3,11 +3,13 @@ import './Modal.css'
 
 interface ModalProps {
   title: string
+  /** Fixed height, so long scrolling sections all match. */
+  tall?: boolean
   onClose: () => void
   children: ReactNode
 }
 
-export default function Modal({ title, onClose, children }: ModalProps) {
+export default function Modal({ title, tall, onClose, children }: ModalProps) {
   const panelRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -28,7 +30,7 @@ export default function Modal({ title, onClose, children }: ModalProps) {
     >
       <div
         ref={panelRef}
-        className="pixel-panel modal-panel"
+        className={`pixel-panel modal-panel${tall ? ' modal-tall' : ''}`}
         role="dialog"
         aria-modal="true"
         aria-label={title}
