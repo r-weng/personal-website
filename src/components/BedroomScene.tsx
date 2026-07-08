@@ -343,7 +343,7 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
   const [weather, setWeather] = useState<string | null>(null)
 
   const checkWeather = async () => {
-    sound.chirp()
+    sound.power(true)
     if (weather) {
       onCaption(`[Window] It's ${weather} in Toronto right now.`)
       return
@@ -365,7 +365,7 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
   const tellTime = () => {
     const t = new Date()
     setNow(t)
-    sound.chirp()
+    sound.power(true)
     onCaption(`[Clock] It's currently ${t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', timeZone: 'America/Toronto' })} in Toronto.`)
   }
 
@@ -484,8 +484,8 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
             clicking or hovering her opens About, not Projects */}
         <Hotspot
           href="#about"
-          label="[About] Rui"
-          caption="[About] That's me!"
+          label="[About] Me :)"
+          caption="[About] Me :)"
           hit={[[63, 26.5, 6.5, 15.5]]}
           onCaption={onCaption}
           onClick={open('about')}
