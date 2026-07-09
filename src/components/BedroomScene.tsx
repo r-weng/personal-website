@@ -469,8 +469,8 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
         {/* projects — computer on the desk */}
         <Hotspot
           href="#projects"
-          label="[Projects] Computer"
-          caption="[Projects] Computer"
+          label="[Computer] Projects"
+          caption="[Computer] Projects"
           hit={[[66.5, 24.5, 9, 9]]}
           onCaption={onCaption}
           onClick={open('projects')}
@@ -484,8 +484,8 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
             clicking or hovering her opens About, not Projects */}
         <Hotspot
           href="#about"
-          label="[About] Me :)"
-          caption="[About] Me :)"
+          label="[Rui] About"
+          caption="[Rui] About :)"
           hit={[[63, 26.5, 6.5, 15.5]]}
           onCaption={onCaption}
           onClick={open('about')}
@@ -496,8 +496,8 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
         {/* experience — bookshelf */}
         <Hotspot
           href="#experience"
-          label="[Experience] Bookshelf"
-          caption="[Experience] Bookshelf"
+          label="[Bookshelf] Experience"
+          caption="[Bookshelf] Experience"
           hit={[[79, 18.5, 10, 24]]}
           onCaption={onCaption}
           onClick={open('experience')}
@@ -511,8 +511,8 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
         {/* contact — phone on the nightstand */}
         <Hotspot
           href="#contact"
-          label="[Contact] Phone"
-          caption="[Contact] Phone"
+          label="[Phone] Contact"
+          caption="[Phone] Contact"
           hit={[[31.5, 30, 4, 4.5]]}
           onCaption={onCaption}
           onClick={open('contact')}
@@ -524,8 +524,8 @@ export default function BedroomScene({ theme, onToggleTheme, onOpenSection }: Be
         {/* gallery — photo wall */}
         <Hotspot
           href="/gallery"
-          label="[Gallery] Photo wall"
-          caption="[Gallery] Photo wall"
+          label="[Photo wall] Gallery"
+          caption="[Photo wall] Gallery"
           hit={[[48.5, 11.5, 11, 9]]}
           onCaption={onCaption}
           onClick={(e) => {
